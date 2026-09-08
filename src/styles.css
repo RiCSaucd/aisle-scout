@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+  --color-background: #f3efe6;
+  --color-foreground: #1c1915;
+  --color-card: #fbf8f1;
+  --color-card-foreground: #1c1915;
+  --color-popover: #fffcf7;
+  --color-popover-foreground: #1c1915;
+  --color-primary: #2f5540;
+  --color-primary-foreground: #f6f3eb;
+  --color-secondary: #e8e2d4;
+  --color-secondary-foreground: #1c1915;
+  --color-muted: #ebe6da;
+  --color-muted-foreground: #6d675c;
+  --color-accent: #dfe8e1;
+  --color-accent-foreground: #24382c;
+  --color-destructive: #9b3d32;
+  --color-destructive-foreground: #fbf8f1;
+  --color-border: #ddd6c8;
+  --color-input: #d7d0c2;
+  --color-ring: #2f5540;
+  --color-best: #2f5540;
+  --color-best-fill: #e4eee8;
+  --color-warn: #9a6b2f;
+  --color-warn-fill: #f3ead8;
+  --color-aldi: #1f3d5c;
+  --color-walmart: #2c5270;
+  --color-target: #8a3d3d;
+  --color-publix: #3a5c48;
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius: 0.75rem;
+
+  --shadow-card: 0 1px 2px color-mix(in oklab, var(--color-foreground) 6%, transparent);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-family: var(--font-display);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
