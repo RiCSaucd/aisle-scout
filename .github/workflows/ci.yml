@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "README.md"
+      - "LICENSE"
+      - ".github/dependabot.yml"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      run-build:
+        description: Run the production build
+        type: boolean
+        default: true
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Quality
+    uses: ./.github/workflows/quality.yml
+    with:
+      node-version: "22"
+      run-build: ${{ github.event_name != 'workflow_dispatch' || inputs.run-build }}

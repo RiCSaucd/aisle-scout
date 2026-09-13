@@ -1,0 +1,69 @@
+name: Quality
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: Node.js version
+        type: string
+        default: "22"
+      run-build:
+        description: Run the production build after checks
+        type: boolean
+        default: true
+  workflow_dispatch:
+    inputs:
+      run-build:
+        description: Run the production build after checks
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-aisle
+        with:
+          node-version: ${{ inputs.node-version || '22' }}
+      - run: npm run typecheck
+
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-aisle
+        with:
+          node-version: ${{ inputs.node-version || '22' }}
+      - run: npm run test:ci
+      - run: npm run check:auth
+
+  build:
+    name: Production build
+    needs: [typecheck, test]
+    if: ${{ inputs.run-build != false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-aisle
+        with:
+          node-version: ${{ inputs.node-version || '22' }}
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aisle-scout-build
+          path: .vercel/output
+          if-no-files-found: ignore
+          retention-days: 7

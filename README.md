@@ -27,6 +27,12 @@ npm run dev
 
 Shelf photos use `XAI_API_KEY` on the server when you want live vision. Without it, sample fridge and pantry stills still work.
 
+## GitHub Actions
+
+Push to `main` or open a PR and GitHub runs typecheck, tests, a production build, and CodeQL. Tag `v0.1.0` for a Release.
+
+The interesting bits (reusable workflow, composite setup action, concurrency, Dependabot groups, OIDC notes) live in [`.github/workflows/README.md`](.github/workflows/README.md).
+
 ## License
 
 Private project unless you add one.
