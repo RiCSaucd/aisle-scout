@@ -18,7 +18,7 @@ export const Route = createRootRoute({
         content:
           "Scan shelf tags and compare grocery, pharmacy, dollar, liquor, and club prices for 32080 St. Augustine Beach.",
       },
-      { name: "theme-color", content: "#2f5540" },
+      { name: "theme-color", content: "#0071e3" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
@@ -29,7 +29,7 @@ export const Route = createRootRoute({
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap",
       },
     ],
   }),

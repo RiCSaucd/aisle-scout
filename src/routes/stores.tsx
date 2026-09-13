@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LOCALS, STORES, STORE_KIND_LABEL } from "@/lib/grocery/stores";
 import { MARKET_CITY, MARKET_ZIP, STORE_KINDS } from "@/lib/grocery/types";
 import { useGroceryStore } from "@/lib/grocery/store";
+import { DietBar } from "@/components/grocery/diet-bar";
 import { StoreMark } from "@/components/grocery/store-mark";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,6 +32,8 @@ function StoresPage() {
           one is yours.
         </p>
       </header>
+
+      <DietBar />
 
       <label className="flex h-12 items-center gap-3 rounded-xl border border-border bg-card px-4 text-sm">
         <Checkbox checked={includeFar} onCheckedChange={(v) => setIncludeFar(v === true)} />

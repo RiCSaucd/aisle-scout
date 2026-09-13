@@ -1,10 +1,12 @@
-import { useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { Minus, Plus, Trash2, TriangleAlert } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Camera, Minus, Plus, Trash2, TriangleAlert } from "lucide-react";
 import { toast } from "sonner";
 import { PRODUCT_MAP } from "@/lib/grocery/catalog";
 import { EXPIRY_ALERT_BY, TODAY } from "@/lib/grocery/promotions";
 import { useGroceryStore } from "@/lib/grocery/store";
+import { useHouseStore } from "@/lib/grocery/house-store";
+import { fridgeStatus } from "@/lib/grocery/house";
 import { usePriceContext } from "@/lib/grocery/hooks";
 import { LOCATIONS, type PantryLocation } from "@/lib/grocery/types";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +17,10 @@ import { Label } from "@/components/ui/label";
 import { FilterRow } from "@/components/grocery/filter-row";
 import { ProductSearch } from "@/components/grocery/product-search";
 import { ProductSheet } from "@/components/grocery/product-sheet";
+import { ShelfSnap } from "@/components/grocery/shelf-snap";
+import { CookFrom } from "@/components/grocery/cook-from";
+import { StockStrip } from "@/components/grocery/stock-strip";
+import { DietBar } from "@/components/grocery/diet-bar";
 import {
   Select,
   SelectContent,
@@ -33,7 +39,7 @@ export const Route = createFileRoute("/pantry")({
 const LOCATION_LABEL: Record<PantryLocation, string> = {
   fridge: "Fridge",
   freezer: "Freezer",
-  pantry: "Pantry",
+  pantry: "Cabinet",
   other: "Other",
 };
 
@@ -52,12 +58,23 @@ function PantryPage() {
   const removeInventory = useGroceryStore((s) => s.removeInventory);
   const addToList = useGroceryStore((s) => s.addToList);
   const resetDemo = useGroceryStore((s) => s.resetDemo);
+  const fridges = useHouseStore((s) => s.fridges);
+  const kitchen = fridges.find((f) => f.id === "kitchen-fridge");
+  const fridgeWarn = kitchen ? fridgeStatus(kitchen) : "ok";
   const [filter, setFilter] = useState<string>("all");
   const [openId, setOpenId] = useState<string | null>(null);
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [pendingQty, setPendingQty] = useState("1");
   const [pendingLoc, setPendingLoc] = useState<PantryLocation>("pantry");
   const [pendingExp, setPendingExp] = useState("");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const hash = window.location.hash;
+    if (hash === "#snap" || hash === "#cook") {
+      document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
 
   const rows = useMemo(() => {
     return inventory
@@ -96,8 +113,24 @@ function PantryPage() {
       <header className="space-y-2">
         <h1 className="font-display text-4xl font-medium tracking-tight">Pantry</h1>
         <p className="max-w-xl text-muted-foreground">
-          What you already have. {alerts > 0 ? `${alerts} running low or close to the date.` : "Nothing waving for attention."}
+          Fridge and cabinet as they stand now. Snap a shelf or scan every barcode as you put it away.
+          {alerts > 0 ? ` ${alerts} running low or close to the date.` : ""}
         </p>
+        <Button variant="outline" asChild className="w-full sm:w-auto">
+          <a href="#snap">
+            <Camera className="size-4" />
+            Snap a shelf
+          </a>
+        </Button>
+        {kitchen ? (
+          <p className="text-sm text-muted-foreground">
+            Kitchen fridge is {kitchen.currentF.toFixed(1)}°F
+            {fridgeWarn !== "ok" ? " — running warm. " : ". "}
+            <Link to="/house" className="text-foreground underline-offset-4 hover:underline">
+              Set temperature
+            </Link>
+          </p>
+        ) : null}
         <ProductSearch
           placeholder="Log something you already have…"
           onPick={(id) => {
@@ -113,6 +146,11 @@ function PantryPage() {
           }}
         />
       </header>
+
+      <DietBar />
+      <StockStrip />
+      <ShelfSnap />
+      <CookFrom />
 
       {pendingId ? (
         <Card>

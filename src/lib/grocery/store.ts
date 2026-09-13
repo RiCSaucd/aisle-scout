@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { SEED_INVENTORY, SEED_LIST, SEED_STAPLES, SEED_WATCHED } from "./seed";
 import { overrideKey } from "./pricing";
+import { type PassId } from "./delivery";
+import { swapToOrganic } from "./organic";
 import type {
   InventoryItem,
   ListItem,
@@ -18,6 +20,10 @@ type GroceryState = {
   clippedPromoIds: string[];
   includeFar: boolean;
   setIncludeFar: (v: boolean) => void;
+  includeFarms: boolean;
+  setIncludeFarms: (v: boolean) => void;
+  organicOnly: boolean;
+  setOrganicOnly: (v: boolean) => void;
   lastStoreId: StoreId;
   setLastStoreId: (id: StoreId) => void;
   staples: string[];
@@ -27,6 +33,10 @@ type GroceryState = {
   toggleWatched: (productId: string) => void;
   budget: number;
   setBudget: (n: number) => void;
+  passes: Record<PassId, boolean>;
+  setPass: (id: PassId, v: boolean) => void;
+  deliveriesPerMonth: number;
+  setDeliveriesPerMonth: (n: number) => void;
   logPrices: (
     entries: { productId: string; storeId: StoreId; price: number; note?: string }[],
   ) => void;
@@ -45,6 +55,16 @@ type GroceryState = {
   addInventory: (item: Omit<InventoryItem, "id">) => void;
   updateInventory: (id: string, patch: Partial<InventoryItem>) => void;
   removeInventory: (id: string) => void;
+  applySightings: (
+    items: {
+      productId: string;
+      qty: number;
+      location: PantryLocation;
+      expiresOn?: string;
+      notes?: string;
+    }[],
+  ) => void;
+  cookRecipe: (uses: { productId: string; qty: number }[]) => void;
   restockFromList: () => void;
   resetDemo: () => void;
 };
@@ -70,6 +90,22 @@ export const useGroceryStore = create<GroceryState>()(
       clippedPromoIds: initialClipped,
       includeFar: false,
       setIncludeFar: (v) => set({ includeFar: v }),
+      includeFarms: false,
+      setIncludeFarms: (v) => set({ includeFarms: v }),
+      organicOnly: false,
+      setOrganicOnly: (v) => {
+        if (!v) {
+          set({ organicOnly: false });
+          return;
+        }
+        set({
+          organicOnly: true,
+          list: get().list.map((item) => ({
+            ...item,
+            productId: swapToOrganic(item.productId),
+          })),
+        });
+      },
       lastStoreId: "publix",
       setLastStoreId: (id) => set({ lastStoreId: id }),
       staples: SEED_STAPLES,
@@ -106,6 +142,16 @@ export const useGroceryStore = create<GroceryState>()(
       },
       budget: 85,
       setBudget: (n) => set({ budget: Math.max(0, n) }),
+      passes: {
+        walmartPlus: false,
+        instacartPlus: false,
+        shipt: false,
+        sams: false,
+        costco: false,
+      },
+      setPass: (id, v) => set({ passes: { ...get().passes, [id]: v } }),
+      deliveriesPerMonth: 4,
+      setDeliveriesPerMonth: (n) => set({ deliveriesPerMonth: Math.max(1, n) }),
       logPrices: (entries) => {
         const now = new Date().toISOString();
         const next = { ...get().overrides };
@@ -136,7 +182,8 @@ export const useGroceryStore = create<GroceryState>()(
         set({ clippedPromoIds: get().clippedPromoIds.filter((x) => x !== id) });
       },
       addToList: (productId, qty = 1, store = "cheapest") => {
-        const existing = get().list.find((i) => i.productId === productId && !i.checked);
+        const id = get().organicOnly ? swapToOrganic(productId) : productId;
+        const existing = get().list.find((i) => i.productId === id && !i.checked);
         if (existing) {
           set({
             list: get().list.map((i) =>
@@ -150,7 +197,7 @@ export const useGroceryStore = create<GroceryState>()(
             ...get().list,
             {
               id: nid("li"),
-              productId,
+              productId: id,
               qty,
               preferredStore: store,
               checked: false,
@@ -210,6 +257,41 @@ export const useGroceryStore = create<GroceryState>()(
       removeInventory: (id) => {
         set({ inventory: get().inventory.filter((i) => i.id !== id) });
       },
+      applySightings: (items) => {
+        const inv = [...get().inventory];
+        for (const s of items) {
+          const existing = inv.find((x) => x.productId === s.productId);
+          if (existing) {
+            existing.qty = s.qty;
+            existing.location = s.location;
+            existing.expiresOn = s.expiresOn ?? existing.expiresOn;
+            existing.notes = s.notes ?? existing.notes;
+          } else {
+            inv.push({
+              id: nid("inv"),
+              productId: s.productId,
+              qty: s.qty,
+              location: s.location,
+              expiresOn: s.expiresOn,
+              lowAt: 1,
+              notes: s.notes,
+            });
+          }
+        }
+        set({ inventory: inv });
+      },
+      cookRecipe: (uses) => {
+        set({
+          inventory: get().inventory.map((item) => {
+            const used = uses.find((u) => u.productId === item.productId);
+            if (!used) return item;
+            return {
+              ...item,
+              qty: Math.max(0, Math.round((item.qty - used.qty) * 10) / 10),
+            };
+          }),
+        });
+      },
       restockFromList: () => {
         const checked = get().list.filter((i) => i.checked);
         const inv = [...get().inventory];
@@ -237,10 +319,20 @@ export const useGroceryStore = create<GroceryState>()(
           list: SEED_LIST,
           clippedPromoIds: initialClipped,
           includeFar: false,
+          includeFarms: false,
+          organicOnly: false,
           lastStoreId: "publix",
           staples: SEED_STAPLES,
           watched: SEED_WATCHED,
           budget: 85,
+          passes: {
+            walmartPlus: false,
+            instacartPlus: false,
+            shipt: false,
+            sams: false,
+            costco: false,
+          },
+          deliveriesPerMonth: 4,
         });
       },
     }),
@@ -256,6 +348,10 @@ export const useGroceryStore = create<GroceryState>()(
           staples: p.staples ?? current.staples,
           watched: p.watched ?? current.watched,
           budget: p.budget ?? current.budget,
+          passes: { ...current.passes, ...(p.passes ?? {}) },
+          deliveriesPerMonth: p.deliveriesPerMonth ?? current.deliveriesPerMonth,
+          includeFarms: p.includeFarms ?? current.includeFarms,
+          organicOnly: p.organicOnly ?? current.organicOnly,
         };
       },
     },

@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Leaf, ScanBarcode, Ticket, TriangleAlert } from "lucide-react";
-import { CATALOG, CATEGORY_LABEL, PRODUCT_MAP } from "@/lib/grocery/catalog";
-import { EXPIRY_ALERT_BY, PROMOTIONS, WEEK_LABEL } from "@/lib/grocery/promotions";
+import { ArrowRight, Leaf, Refrigerator, ScanBarcode, Ticket, TriangleAlert, Truck } from "lucide-react";
+import { CATEGORY_LABEL, PRODUCT_MAP } from "@/lib/grocery/catalog";
+import { catalogForPrefs } from "@/lib/grocery/organic";
+import { PROMOTIONS, WEEK_LABEL } from "@/lib/grocery/promotions";
+import { expiryStatus } from "@/lib/grocery/shelf-life";
 import { cheapestStore, winCounts } from "@/lib/grocery/pricing";
 import { formatMoney } from "@/lib/grocery/format";
 import { STORE_MAP } from "@/lib/grocery/stores";
@@ -13,9 +15,11 @@ import { MARKET_ZIP } from "@/lib/grocery/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DietBar } from "@/components/grocery/diet-bar";
 import { ProductSearch } from "@/components/grocery/product-search";
 import { PriceGrid } from "@/components/grocery/price-grid";
 import { ProductSheet } from "@/components/grocery/product-sheet";
+import { StockStrip } from "@/components/grocery/stock-strip";
 import { StoreMark } from "@/components/grocery/store-mark";
 import { StoreStrip } from "@/components/grocery/store-strip";
 
@@ -47,12 +51,12 @@ function Home() {
   const bestPlan = plans[0];
 
   const alerts = inventory.filter((i) => {
-    const expiring = i.expiresOn && i.expiresOn <= EXPIRY_ALERT_BY;
+    const exp = expiryStatus(i.expiresOn);
     const low = i.qty <= i.lowAt;
-    return expiring || low;
+    return exp !== "ok" || low;
   });
 
-  const produceItems = CATALOG.filter((p) => p.category === "produce");
+  const produceItems = catalogForPrefs(!!ctx.organicOnly).filter((p) => p.category === "produce");
   const produceWins = produceItems.reduce((n, p) => {
     const best = cheapestStore(p.id, 1, ctx);
     return n + (best?.storeId === "aldi" ? 1 : 0);
@@ -63,10 +67,10 @@ function Home() {
   return (
     <div className="space-y-8">
       <header className="space-y-3">
-        <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+        <p className="text-sm font-medium text-muted-foreground">
           {MARKET_ZIP} · St. Augustine Beach · {WEEK_LABEL}
         </p>
-        <h1 className="font-display text-4xl font-medium tracking-tight text-foreground sm:text-5xl">
+        <h1 className="font-display text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
           The cheapest basket this week.
         </h1>
         <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
@@ -82,6 +86,18 @@ function Home() {
             </Link>
           </Button>
           <Button variant="outline" asChild className="w-full sm:w-auto">
+            <Link to="/ship">
+              <Truck className="size-4" />
+              Ship groceries
+            </Link>
+          </Button>
+          <Button variant="outline" asChild className="w-full sm:w-auto">
+            <Link to="/house">
+              <Refrigerator className="size-4" />
+              House fridge
+            </Link>
+          </Button>
+          <Button variant="outline" asChild className="w-full sm:w-auto">
             <Link to="/list" hash="blend">
               Paste a grocery list
               <ArrowRight className="size-4" />
@@ -89,6 +105,9 @@ function Home() {
           </Button>
         </div>
       </header>
+
+      <DietBar />
+      <StockStrip />
 
       <section className="grid gap-3 sm:grid-cols-3">
         <Card>
@@ -98,7 +117,7 @@ function Home() {
           <CardContent>
             <p className="font-display text-3xl font-medium tabular-nums">{winLeader?.[1] ?? 0}</p>
             <p className="mt-1 text-sm text-muted-foreground">
-              items at {winLeader ? STORE_MAP[winLeader[0]].short : "—"} of {CATALOG.length}
+              items at {winLeader ? STORE_MAP[winLeader[0]].short : "—"} of {catalogForPrefs(!!ctx.organicOnly).length}
             </p>
           </CardContent>
         </Card>
@@ -238,11 +257,12 @@ function Home() {
             ) : (
               alerts.slice(0, 6).map((item) => {
                 const product = PRODUCT_MAP[item.productId];
-                const expiring = item.expiresOn && item.expiresOn <= EXPIRY_ALERT_BY;
+                const exp = expiryStatus(item.expiresOn);
+                const dated = exp !== "ok";
                 return (
                   <div key={item.id} className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
-                      {expiring ? <TriangleAlert className="size-4 text-warn" /> : null}
+                      {dated ? <TriangleAlert className="size-4 text-warn" /> : null}
                       <div>
                         <div className="text-sm font-medium">{product?.name}</div>
                         <div className="text-xs text-muted-foreground">
@@ -251,8 +271,8 @@ function Home() {
                         </div>
                       </div>
                     </div>
-                    <Badge variant={expiring ? "warn" : "secondary"}>
-                      {expiring ? "Expiring" : "Low"}
+                    <Badge variant={dated ? "warn" : "secondary"}>
+                      {exp === "expired" ? "Past date" : dated ? "Use soon" : "Low"}
                     </Badge>
                   </div>
                 );

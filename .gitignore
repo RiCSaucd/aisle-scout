@@ -3,3 +3,10 @@ node_modules/
 .github_repo
 .env
 .env.*
+.vercel/
+.grok/
+screenshots/
+artifacts/
+dist/
+*.local
+.DS_Store

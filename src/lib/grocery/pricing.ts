@@ -1,20 +1,24 @@
-import { CATALOG, PRODUCT_MAP } from "./catalog";
+import { PRODUCT_MAP } from "./catalog";
 import { isPromoActive, PROMOTIONS } from "./promotions";
 import { STORE_MAP } from "./stores";
 import type { Promotion, StoreId } from "./types";
 import { STORE_IDS } from "./types";
+import { catalogForPrefs } from "./organic";
 
 export type PriceContext = {
   overrides: Record<string, number>;
   clippedPromoIds: string[];
   now?: Date;
   includeFar?: boolean;
+  includeFarms?: boolean;
+  organicOnly?: boolean;
 };
 
 export function compareStoreIds(ctx: PriceContext): StoreId[] {
   return STORE_IDS.filter((id) => {
     const store = STORE_MAP[id];
     if (store.kind === "convenience") return false;
+    if (store.kind === "farm") return !!ctx.includeFarms;
     if (store.far && !ctx.includeFar) return false;
     return true;
   });
@@ -146,14 +150,14 @@ export function allQuotes(
   qty: number,
   ctx: PriceContext,
 ): LineQuote[] {
-  return STORE_IDS.map((storeId) => quoteLine(productId, storeId, qty, ctx)).filter(
-    (q): q is LineQuote => q != null,
-  );
+  return compareStoreIds(ctx)
+    .map((storeId) => quoteLine(productId, storeId, qty, ctx))
+    .filter((q): q is LineQuote => q != null);
 }
 
 export function winCounts(ctx: PriceContext): Record<StoreId, number> {
   const counts = Object.fromEntries(STORE_IDS.map((id) => [id, 0])) as Record<StoreId, number>;
-  for (const product of CATALOG) {
+  for (const product of catalogForPrefs(!!ctx.organicOnly)) {
     const best = cheapestStore(product.id, 1, ctx);
     if (best) counts[best.storeId] += 1;
   }

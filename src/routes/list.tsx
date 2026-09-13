@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Minus, Plus, ScanBarcode, Trash2 } from "lucide-react";
+import { Minus, Plus, ScanBarcode, Trash2, Truck } from "lucide-react";
 import { toast } from "sonner";
 import { PRODUCT_MAP } from "@/lib/grocery/catalog";
 import { formatMoney } from "@/lib/grocery/format";
@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { ProductSearch } from "@/components/grocery/product-search";
 import { ProductSheet } from "@/components/grocery/product-sheet";
 import { BlendPanel } from "@/components/grocery/blend-panel";
+import { DietBar } from "@/components/grocery/diet-bar";
 import { TripPlanDetail, TripPlanPicker } from "@/components/grocery/trip-plan";
 import {
   Select,
@@ -87,6 +88,12 @@ function ListPage() {
               Scan at {STORE_MAP[lastStoreId].short}
             </Link>
           </Button>
+          <Button variant="outline" asChild>
+            <Link to="/ship">
+              <Truck className="size-4" />
+              Ship this list
+            </Link>
+          </Button>
           <Button
             variant="outline"
             onClick={() => {
@@ -100,6 +107,8 @@ function ListPage() {
           </Button>
         </div>
       </header>
+
+      <DietBar />
 
       <BlendPanel ctx={ctx} />
 

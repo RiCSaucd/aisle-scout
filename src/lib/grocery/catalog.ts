@@ -294,6 +294,154 @@ export const CATALOG: CatalogItem[] = [
     { abc: 29.99, publix: 34.99, winndixie: 33.99, costco: 26.99, sams: 27.98 },
     "Evan Williams",
   ),
+
+  // USDA Organic — GreenWise / Simply Nature / Good & Gather / Great Value Organic
+  ...[
+    item("bananas-org", "Bananas", "produce", "per lb", "lb", 0.69, 0.78, 0.89, 0.99, "USDA Organic"),
+    item("strawberries-org", "Strawberries", "produce", "1 lb clamshell", "each", 4.49, 4.98, 5.49, 6.99, "USDA Organic"),
+    item("blueberries-org", "Blueberries", "produce", "18 oz", "each", 4.99, 5.48, 5.99, 7.49, "USDA Organic"),
+    item("avocados-org", "Hass Avocados", "produce", "each", "each", 1.29, 1.48, 1.69, 1.99, "USDA Organic"),
+    item("roma-tomatoes-org", "Roma Tomatoes", "produce", "per lb", "lb", 1.99, 2.28, 2.49, 2.99, "USDA Organic", {
+      pier: 2.49,
+      amphitheatre: 2.39,
+      "sunday-mkt": 2.5,
+      schooner: 2.49,
+      "county-line": 1.79,
+    }),
+    item("spinach-org", "Baby Spinach", "produce", "5 oz", "each", 2.49, 2.98, 3.29, 3.79, "USDA Organic", {
+      amphitheatre: 3.25,
+      "bee-hill": 2.95,
+      pier: 3.5,
+    }),
+    item("romaine-org", "Romaine Hearts", "produce", "3-pack", "pack", 3.49, 3.98, 4.29, 4.99, "USDA Organic", {
+      "bee-hill": 4.5,
+      amphitheatre: 4.75,
+    }),
+    item("carrots-org", "Baby Carrots", "produce", "1 lb bag", "bag", 1.79, 1.98, 2.29, 2.49, "USDA Organic"),
+    item("gala-apples-org", "Gala Apples", "produce", "3 lb bag", "bag", 4.49, 4.98, 5.49, 5.99, "USDA Organic"),
+    item("broccoli-org", "Broccoli Crowns", "produce", "per lb", "lb", 2.49, 2.78, 2.99, 3.49, "USDA Organic", {
+      "county-line": 1.99,
+      wesley: 2.25,
+    }),
+    item("kale-org", "Kale", "produce", "bunch", "bunch", 2.29, 2.49, 2.79, 2.99, "USDA Organic", {
+      "bee-hill": 2.5,
+      amphitheatre: 2.75,
+      pier: 2.75,
+    }),
+    item("salad-mix-org", "Garden Salad Mix", "produce", "12 oz", "each", 3.49, 3.98, 4.29, 4.79, "USDA Organic", {
+      "bee-hill": 5.5,
+      amphitheatre: 5.75,
+    }),
+    item("cucumbers-org", "Cucumbers", "produce", "each", "each", 0.89, 0.99, 1.19, 1.29, "USDA Organic", {
+      pier: 1,
+      amphitheatre: 1,
+      "county-line": 0.75,
+    }),
+    item("bell-peppers-org", "Green Bell Peppers", "produce", "each", "each", 0.99, 1.18, 1.29, 1.49, "USDA Organic", {
+      "county-line": 0.89,
+      wesley: 1,
+    }),
+    item("corn-org", "Sweet Corn", "produce", "each", "each", 0.59, 0.69, 0.79, 0.89, "USDA Organic", {
+      "county-line": 0.4,
+      wesley: 0.5,
+      pier: 0.6,
+    }),
+    item("whole-milk-org", "Whole Milk", "dairy", "1 gallon", "gal", 4.89, 5.24, 5.59, 6.29, "USDA Organic"),
+    item("eggs-org", "Large Eggs", "dairy", "dozen", "dozen", 4.49, 4.98, 5.49, 5.99, "USDA Organic", {
+      amphitheatre: 7,
+      "sunday-mkt": 6.5,
+      schooner: 7,
+    }),
+    item("butter-org", "Salted Butter", "dairy", "1 lb", "each", 5.49, 5.98, 6.49, 6.99, "USDA Organic"),
+    item("greek-yogurt-org", "Greek Yogurt", "dairy", "32 oz", "each", 5.49, 5.98, 6.49, 6.99, "USDA Organic"),
+    item("chicken-breast-org", "Boneless Chicken Breast", "meat", "per lb", "lb", 5.99, 6.47, 6.99, 7.99, "USDA Organic"),
+    item("ground-beef-org", "Ground Beef 80/20", "meat", "per lb", "lb", 6.99, 7.47, 7.99, 8.99, "USDA Organic"),
+    item("bacon-org", "Bacon", "meat", "12 oz", "each", 5.99, 6.48, 6.99, 7.99, "USDA Organic"),
+    item("spaghetti-org", "Spaghetti", "pantry", "16 oz", "each", 1.49, 1.68, 1.89, 2.29, "USDA Organic"),
+    item("marinara-org", "Marinara Sauce", "pantry", "24 oz", "each", 2.49, 2.78, 2.99, 3.49, "USDA Organic"),
+    item("peanut-butter-org", "Peanut Butter", "pantry", "16 oz", "each", 3.49, 3.98, 4.29, 4.79, "USDA Organic"),
+    item("olive-oil-org", "Extra Virgin Olive Oil", "pantry", "16.9 oz", "each", 7.99, 8.48, 9.49, 10.99, "USDA Organic"),
+    item("coffee-org", "Ground Coffee", "pantry", "30.5 oz", "each", 9.99, 10.48, 11.49, 12.99, "USDA Organic"),
+    item("oatmeal-org", "Old Fashioned Oats", "pantry", "42 oz", "each", 4.49, 4.98, 5.29, 5.79, "USDA Organic"),
+    item("frozen-berries-org", "Frozen Mixed Berries", "frozen", "12 oz", "each", 3.99, 4.28, 4.79, 5.49, "USDA Organic"),
+  ].map((p) => ({
+    ...p,
+    cert: "usda-organic" as const,
+    twinOf: p.id.replace(/-org$/, ""),
+  })),
+
+  {
+    ...limited(
+      "wildflower-honey",
+      "Wildflower Honey",
+      "pantry",
+      "12 oz",
+      "each",
+      { "bee-hill": 12, amphitheatre: 12, pier: 13, schooner: 13, publix: 8.99, walmart: 7.48 },
+      "Bee Hill Farm",
+    ),
+    cert: "farm-fresh" as const,
+  },
+  {
+    ...limited(
+      "pasture-eggs",
+      "Pasture Eggs",
+      "dairy",
+      "dozen",
+      "dozen",
+      { amphitheatre: 7, "sunday-mkt": 6.5, schooner: 7, pier: 7.5, springs: 8 },
+      "Local farm",
+    ),
+    cert: "farm-fresh" as const,
+  },
+  {
+    ...limited(
+      "springs-milk",
+      "Farm Milk",
+      "dairy",
+      "1 gallon",
+      "gal",
+      { springs: 8.5, "sunday-mkt": 9, schooner: 9 },
+      "Natural Springs Dairy",
+    ),
+    cert: "farm-fresh" as const,
+  },
+  {
+    ...limited(
+      "bee-salad",
+      "Farm Salad Mix",
+      "produce",
+      "8 oz",
+      "each",
+      { "bee-hill": 6.5, amphitheatre: 6.75 },
+      "Bee Hill Farm",
+    ),
+    cert: "farm-fresh" as const,
+  },
+  {
+    ...limited(
+      "local-shrimp",
+      "Local Shrimp",
+      "meat",
+      "1 lb",
+      "lb",
+      { amphitheatre: 14.99, "sunday-mkt": 15.99, pier: 16.99 },
+      "Matanzas boats",
+    ),
+    cert: "farm-fresh" as const,
+  },
+  {
+    ...limited(
+      "sebago-potatoes",
+      "Sebago Potatoes",
+      "produce",
+      "5 lb bag",
+      "bag",
+      { "county-line": 4.5, wesley: 4.99, "sunday-mkt": 5.5 },
+      "Hastings",
+    ),
+    cert: "farm-fresh" as const,
+  },
 ];
 
 export const PRODUCT_MAP: Record<string, CatalogItem> = Object.fromEntries(

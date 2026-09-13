@@ -36,6 +36,14 @@ export const STORE_TONE: Record<StoreId, string> = {
   cstore: "text-warn",
   costco: "text-aldi",
   sams: "text-walmart",
+  pier: "text-best",
+  amphitheatre: "text-best",
+  "sunday-mkt": "text-best",
+  schooner: "text-best",
+  "bee-hill": "text-best",
+  wesley: "text-best",
+  "county-line": "text-best",
+  springs: "text-best",
 };
 
 export const STORE_DOT: Record<StoreId, string> = {
@@ -52,6 +60,14 @@ export const STORE_DOT: Record<StoreId, string> = {
   cstore: "bg-warn",
   costco: "bg-aldi",
   sams: "bg-walmart",
+  pier: "bg-best",
+  amphitheatre: "bg-best",
+  "sunday-mkt": "bg-best",
+  schooner: "bg-best",
+  "bee-hill": "bg-best",
+  wesley: "bg-best",
+  "county-line": "bg-best",
+  springs: "bg-best",
 };
 
 export const KIND_LABEL: Record<PromotionKind, string> = {

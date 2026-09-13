@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
-import { CATALOG, CATEGORY_LABEL } from "@/lib/grocery/catalog";
+import { CATEGORY_LABEL } from "@/lib/grocery/catalog";
+import { catalogForPrefs, certOf } from "@/lib/grocery/organic";
+import { useGroceryStore } from "@/lib/grocery/store";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
@@ -13,15 +15,18 @@ export function ProductSearch({
   placeholder?: string;
   autoFocus?: boolean;
 }) {
+  const organicOnly = useGroceryStore((s) => s.organicOnly);
   const [q, setQ] = useState("");
   const results = useMemo(() => {
     const needle = q.trim().toLowerCase();
     if (needle.length < 1) return [];
-    return CATALOG.filter((p) => {
-      const hay = `${p.name} ${p.brand ?? ""} ${p.category}`.toLowerCase();
-      return hay.includes(needle);
-    }).slice(0, 8);
-  }, [q]);
+    return catalogForPrefs(organicOnly)
+      .filter((p) => {
+        const hay = `${p.name} ${p.brand ?? ""} ${p.category}`.toLowerCase();
+        return hay.includes(needle);
+      })
+      .slice(0, 8);
+  }, [q, organicOnly]);
 
   return (
     <div className="relative">
@@ -31,11 +36,11 @@ export function ProductSearch({
         autoFocus={autoFocus}
         onChange={(e) => setQ(e.target.value)}
         placeholder={placeholder}
-        className="h-12 rounded-lg pl-10"
+        className="h-12 rounded-xl pl-10"
         aria-label="Search products"
       />
       {results.length > 0 ? (
-        <ul className="absolute z-20 mt-1 w-full overflow-hidden rounded-lg border border-border bg-popover shadow-md">
+        <ul className="absolute z-20 mt-1 w-full overflow-hidden rounded-xl bg-popover/90 shadow-[var(--shadow-glass)] backdrop-blur-xl">
           {results.map((p) => (
             <li key={p.id}>
               <button
@@ -51,6 +56,11 @@ export function ProductSearch({
                 <span>
                   <span className="font-medium">{p.name}</span>
                   <span className="ml-2 text-muted-foreground">{p.size}</span>
+                  {certOf(p) === "usda-organic" ? (
+                    <span className="ml-2 text-xs text-best">USDA Organic</span>
+                  ) : certOf(p) === "farm-fresh" ? (
+                    <span className="ml-2 text-xs text-best">Farm</span>
+                  ) : null}
                 </span>
                 <span className="text-xs text-muted-foreground">{CATEGORY_LABEL[p.category]}</span>
               </button>

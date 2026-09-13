@@ -12,6 +12,14 @@ export const STORE_IDS = [
   "cstore",
   "costco",
   "sams",
+  "pier",
+  "amphitheatre",
+  "sunday-mkt",
+  "schooner",
+  "bee-hill",
+  "wesley",
+  "county-line",
+  "springs",
 ] as const;
 export type StoreId = (typeof STORE_IDS)[number];
 
@@ -22,6 +30,7 @@ export const STORE_KINDS = [
   "liquor",
   "convenience",
   "club",
+  "farm",
 ] as const;
 export type StoreKind = (typeof STORE_KINDS)[number];
 
@@ -44,6 +53,8 @@ export type PantryLocation = (typeof LOCATIONS)[number];
 
 export type Unit = "each" | "lb" | "oz" | "gal" | "dozen" | "bunch" | "pack" | "loaf" | "bag";
 
+export type Cert = "conventional" | "usda-organic" | "farm-fresh";
+
 export type Product = {
   id: string;
   name: string;
@@ -51,6 +62,8 @@ export type Product = {
   category: Category;
   size: string;
   unit: Unit;
+  cert?: Cert;
+  twinOf?: string;
 };
 
 export type Store = {
@@ -64,6 +77,7 @@ export type Store = {
   far?: boolean;
   membership?: boolean;
   bulk?: boolean;
+  seasonal?: boolean;
   zip: string;
   sells: string;
   locations: { name: string; address: string; city: string; zip: string }[];

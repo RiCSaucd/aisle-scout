@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { blendList, SAMPLE_LIST, type BlendMatch } from "@/lib/grocery/blend";
 import { formatMoney } from "@/lib/grocery/format";
-import { EXPIRY_ALERT_BY } from "@/lib/grocery/promotions";
+import { expiryStatus } from "@/lib/grocery/shelf-life";
 import { cheapestStore, type PriceContext } from "@/lib/grocery/pricing";
 import { STORE_MAP } from "@/lib/grocery/stores";
 import { useGroceryStore } from "@/lib/grocery/store";
@@ -22,7 +22,7 @@ function pantryNoteFor(
 ): { note?: string; stocked: boolean } {
   const item = inventory.find((i) => i.productId === productId);
   if (!item) return { stocked: false };
-  const expiring = !!(item.expiresOn && item.expiresOn <= EXPIRY_ALERT_BY);
+  const expiring = expiryStatus(item.expiresOn) !== "ok";
   if (expiring) return { note: `In pantry · use by ${item.expiresOn}`, stocked: false };
   if (item.qty < qtyNeeded) return { note: `In pantry · ${item.qty} on hand`, stocked: false };
   if (item.qty <= item.lowAt) return { note: `In pantry · only ${item.qty} left`, stocked: false };

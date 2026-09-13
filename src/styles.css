@@ -1,46 +1,61 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Plus Jakarta Sans",
+    "Segoe UI", system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Plus Jakarta Sans",
+    "Segoe UI", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "IBM Plex Mono", Menlo, monospace;
 
-  --color-background: #f3efe6;
-  --color-foreground: #1c1915;
-  --color-card: #fbf8f1;
-  --color-card-foreground: #1c1915;
-  --color-popover: #fffcf7;
-  --color-popover-foreground: #1c1915;
-  --color-primary: #2f5540;
-  --color-primary-foreground: #f6f3eb;
-  --color-secondary: #e8e2d4;
-  --color-secondary-foreground: #1c1915;
-  --color-muted: #ebe6da;
-  --color-muted-foreground: #6d675c;
-  --color-accent: #dfe8e1;
-  --color-accent-foreground: #24382c;
-  --color-destructive: #9b3d32;
-  --color-destructive-foreground: #fbf8f1;
-  --color-border: #ddd6c8;
-  --color-input: #d7d0c2;
-  --color-ring: #2f5540;
-  --color-best: #2f5540;
-  --color-best-fill: #e4eee8;
-  --color-warn: #9a6b2f;
-  --color-warn-fill: #f3ead8;
-  --color-aldi: #1f3d5c;
-  --color-walmart: #2c5270;
-  --color-target: #8a3d3d;
-  --color-publix: #3a5c48;
+  --color-background: #f5f5f7;
+  --color-foreground: #1d1d1f;
+  --color-card: #ffffff;
+  --color-card-foreground: #1d1d1f;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1d1d1f;
+  --color-primary: #0071e3;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #e8e8ed;
+  --color-secondary-foreground: #1d1d1f;
+  --color-muted: #f0f0f4;
+  --color-muted-foreground: #6e6e73;
+  --color-accent: #e8f1fb;
+  --color-accent-foreground: #0071e3;
+  --color-destructive: #ff3b30;
+  --color-destructive-foreground: #ffffff;
+  --color-border: color-mix(in oklab, #1d1d1f 8%, transparent);
+  --color-input: color-mix(in oklab, #1d1d1f 10%, transparent);
+  --color-ring: #0071e3;
+  --color-best: #248a3d;
+  --color-best-fill: #e8f6ec;
+  --color-warn: #c93400;
+  --color-warn-fill: #fff1e8;
+  --color-aldi: #1d4e89;
+  --color-walmart: #0071ce;
+  --color-target: #cc0000;
+  --color-publix: #3d7a4a;
+  --color-glow-sky: #7ec8ff;
+  --color-glow-mint: #7ddeb0;
+  --color-glow-citrus: #ffd29b;
 
-  --radius-xs: 0.25rem;
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
-  --radius: 0.75rem;
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.625rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+  --radius: 0.875rem;
 
-  --shadow-card: 0 1px 2px color-mix(in oklab, var(--color-foreground) 6%, transparent);
+  --shadow-card:
+    0 0 0 1px color-mix(in oklab, var(--color-foreground) 6%, transparent),
+    0 1px 2px color-mix(in oklab, var(--color-foreground) 4%, transparent),
+    0 8px 24px color-mix(in oklab, var(--color-foreground) 4%, transparent);
+  --shadow-card-hover:
+    0 0 0 1px color-mix(in oklab, var(--color-foreground) 8%, transparent),
+    0 4px 12px color-mix(in oklab, var(--color-foreground) 6%, transparent),
+    0 16px 40px color-mix(in oklab, var(--color-foreground) 6%, transparent);
+  --shadow-glass:
+    0 0 0 1px color-mix(in oklab, var(--color-foreground) 6%, transparent),
+    0 8px 32px color-mix(in oklab, var(--color-foreground) 8%, transparent);
 }
 
 @layer base {
@@ -57,6 +72,7 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    letter-spacing: -0.011em;
   }
 
   h1,
@@ -64,6 +80,8 @@
   h3 {
     text-wrap: balance;
     font-family: var(--font-display);
+    letter-spacing: -0.03em;
+    font-weight: 600;
   }
 
   p {
@@ -73,6 +91,72 @@
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+
+  img {
+    outline: 1px solid color-mix(in oklab, var(--color-foreground) 10%, transparent);
+    outline-offset: -1px;
+  }
+}
+
+@layer components {
+  .app-frame {
+    position: relative;
+    isolation: isolate;
+    min-height: 100dvh;
+  }
+
+  .app-atmosphere {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    background-color: var(--color-background);
+    background-image:
+      radial-gradient(
+        70rem 42rem at 8% -12%,
+        color-mix(in oklab, var(--color-glow-mint) 42%, transparent),
+        transparent 58%
+      ),
+      radial-gradient(
+        54rem 36rem at 108% 4%,
+        color-mix(in oklab, var(--color-glow-sky) 48%, transparent),
+        transparent 54%
+      ),
+      radial-gradient(
+        46rem 28rem at 86% 108%,
+        color-mix(in oklab, var(--color-glow-citrus) 28%, transparent),
+        transparent 58%
+      ),
+      radial-gradient(
+        32rem 20rem at 40% 70%,
+        color-mix(in oklab, var(--color-primary) 8%, transparent),
+        transparent 70%
+      ),
+      repeating-linear-gradient(
+        0deg,
+        color-mix(in oklab, var(--color-foreground) 3.5%, transparent) 0 1px,
+        transparent 1px 56px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        color-mix(in oklab, var(--color-foreground) 3.5%, transparent) 0 1px,
+        transparent 1px 56px
+      );
+  }
+
+  .app-atmosphere::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  .app-content {
+    position: relative;
+    z-index: 1;
   }
 }
 

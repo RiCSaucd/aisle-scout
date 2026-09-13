@@ -11,12 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DealsRouteImport } from './routes/deals'
+import { Route as FarmsRouteImport } from './routes/farms'
+import { Route as HouseRouteImport } from './routes/house'
 import { Route as ListRouteImport } from './routes/list'
 import { Route as LogRouteImport } from './routes/log'
 import { Route as PantryRouteImport } from './routes/pantry'
 import { Route as PricesRouteImport } from './routes/prices'
 import { Route as ScanRouteImport } from './routes/scan'
+import { Route as ShipRouteImport } from './routes/ship'
 import { Route as StoresRouteImport } from './routes/stores'
+import { Route as ApiV1HouseRouteImport } from './routes/api/v1/house'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -26,6 +30,16 @@ const IndexRoute = IndexRouteImport.update({
 const DealsRoute = DealsRouteImport.update({
   id: '/deals',
   path: '/deals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FarmsRoute = FarmsRouteImport.update({
+  id: '/farms',
+  path: '/farms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HouseRoute = HouseRouteImport.update({
+  id: '/house',
+  path: '/house',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ListRoute = ListRouteImport.update({
@@ -53,85 +67,123 @@ const ScanRoute = ScanRouteImport.update({
   path: '/scan',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShipRoute = ShipRouteImport.update({
+  id: '/ship',
+  path: '/ship',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StoresRoute = StoresRouteImport.update({
   id: '/stores',
   path: '/stores',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1HouseRoute = ApiV1HouseRouteImport.update({
+  id: '/api/v1/house',
+  path: '/api/v1/house',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/deals': typeof DealsRoute
+  '/farms': typeof FarmsRoute
+  '/house': typeof HouseRoute
   '/list': typeof ListRoute
   '/log': typeof LogRoute
   '/pantry': typeof PantryRoute
   '/prices': typeof PricesRoute
   '/scan': typeof ScanRoute
+  '/ship': typeof ShipRoute
   '/stores': typeof StoresRoute
+  '/api/v1/house': typeof ApiV1HouseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/deals': typeof DealsRoute
+  '/farms': typeof FarmsRoute
+  '/house': typeof HouseRoute
   '/list': typeof ListRoute
   '/log': typeof LogRoute
   '/pantry': typeof PantryRoute
   '/prices': typeof PricesRoute
   '/scan': typeof ScanRoute
+  '/ship': typeof ShipRoute
   '/stores': typeof StoresRoute
+  '/api/v1/house': typeof ApiV1HouseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/deals': typeof DealsRoute
+  '/farms': typeof FarmsRoute
+  '/house': typeof HouseRoute
   '/list': typeof ListRoute
   '/log': typeof LogRoute
   '/pantry': typeof PantryRoute
   '/prices': typeof PricesRoute
   '/scan': typeof ScanRoute
+  '/ship': typeof ShipRoute
   '/stores': typeof StoresRoute
+  '/api/v1/house': typeof ApiV1HouseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/deals'
+    | '/farms'
+    | '/house'
     | '/list'
     | '/log'
     | '/pantry'
     | '/prices'
     | '/scan'
+    | '/ship'
     | '/stores'
+    | '/api/v1/house'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/deals'
+    | '/farms'
+    | '/house'
     | '/list'
     | '/log'
     | '/pantry'
     | '/prices'
     | '/scan'
+    | '/ship'
     | '/stores'
+    | '/api/v1/house'
   id:
     | '__root__'
     | '/'
     | '/deals'
+    | '/farms'
+    | '/house'
     | '/list'
     | '/log'
     | '/pantry'
     | '/prices'
     | '/scan'
+    | '/ship'
     | '/stores'
+    | '/api/v1/house'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DealsRoute: typeof DealsRoute
+  FarmsRoute: typeof FarmsRoute
+  HouseRoute: typeof HouseRoute
   ListRoute: typeof ListRoute
   LogRoute: typeof LogRoute
   PantryRoute: typeof PantryRoute
   PricesRoute: typeof PricesRoute
   ScanRoute: typeof ScanRoute
+  ShipRoute: typeof ShipRoute
   StoresRoute: typeof StoresRoute
+  ApiV1HouseRoute: typeof ApiV1HouseRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -148,6 +200,20 @@ declare module '@tanstack/react-router' {
       path: '/deals'
       fullPath: '/deals'
       preLoaderRoute: typeof DealsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/farms': {
+      id: '/farms'
+      path: '/farms'
+      fullPath: '/farms'
+      preLoaderRoute: typeof FarmsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/house': {
+      id: '/house'
+      path: '/house'
+      fullPath: '/house'
+      preLoaderRoute: typeof HouseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/list': {
@@ -185,11 +251,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScanRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ship': {
+      id: '/ship'
+      path: '/ship'
+      fullPath: '/ship'
+      preLoaderRoute: typeof ShipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stores': {
       id: '/stores'
       path: '/stores'
       fullPath: '/stores'
       preLoaderRoute: typeof StoresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/house': {
+      id: '/api/v1/house'
+      path: '/api/v1/house'
+      fullPath: '/api/v1/house'
+      preLoaderRoute: typeof ApiV1HouseRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -198,12 +278,16 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DealsRoute: DealsRoute,
+  FarmsRoute: FarmsRoute,
+  HouseRoute: HouseRoute,
   ListRoute: ListRoute,
   LogRoute: LogRoute,
   PantryRoute: PantryRoute,
   PricesRoute: PricesRoute,
   ScanRoute: ScanRoute,
+  ShipRoute: ShipRoute,
   StoresRoute: StoresRoute,
+  ApiV1HouseRoute: ApiV1HouseRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

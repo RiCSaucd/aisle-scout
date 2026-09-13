@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Bell, Check, Pin } from "lucide-react";
+import { Bell, Check, Pin, Refrigerator, Warehouse } from "lucide-react";
 import { toast } from "sonner";
 import type { CatalogItem } from "@/lib/grocery/catalog";
 import { formatMoney } from "@/lib/grocery/format";
@@ -10,7 +10,8 @@ import { upcFor } from "@/lib/grocery/barcodes";
 import { STORES, STORE_MAP } from "@/lib/grocery/stores";
 import { useGroceryStore } from "@/lib/grocery/store";
 import { usePriceContext } from "@/lib/grocery/hooks";
-import type { StoreId } from "@/lib/grocery/types";
+import { addDaysISO, shelfLifeDays, todayISO } from "@/lib/grocery/shelf-life";
+import type { PantryLocation, StoreId } from "@/lib/grocery/types";
 import { STORE_IDS } from "@/lib/grocery/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -52,6 +53,9 @@ function ScanPage() {
   const staples = useGroceryStore((s) => s.staples);
   const toggleWatched = useGroceryStore((s) => s.toggleWatched);
   const toggleStaple = useGroceryStore((s) => s.toggleStaple);
+  const addInventory = useGroceryStore((s) => s.addInventory);
+  const includeFarms = useGroceryStore((s) => s.includeFarms);
+  const includeFar = useGroceryStore((s) => s.includeFar);
 
   const storeId: StoreId = lastStoreId;
   const [hit, setHit] = useState<CatalogItem | null>(null);
@@ -109,8 +113,8 @@ function ScanPage() {
         </p>
         <h1 className="font-display text-4xl font-medium tracking-tight">Price scanner</h1>
         <p className="max-w-xl text-muted-foreground">
-          Scan the UPC, type the digits, or tap a sample barcode. We match the 32080 book, compare the
-          tag to nearby stores, and log what you actually paid.
+          Scan the UPC, type the digits, or tap a sample barcode. Log the shelf price, then put the
+          item in the fridge or the cabinet so stock stays current.
         </p>
       </header>
 
@@ -119,7 +123,11 @@ function ScanPage() {
           I'm at
         </p>
         <div className="flex flex-wrap gap-2">
-          {STORES.map((store) => {
+          {STORES.filter((store) => {
+            if (store.kind === "farm") return includeFarms;
+            if (store.far) return includeFar;
+            return true;
+          }).map((store) => {
             const active = store.id === storeId;
             return (
               <button
@@ -234,6 +242,48 @@ function ScanPage() {
               >
                 <Pin className="size-4" />
                 {staples.includes(hit.id) ? "Staple" : "Pin staple"}
+              </Button>
+            </div>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => {
+                  const loc: PantryLocation =
+                    hit.category === "frozen"
+                      ? "freezer"
+                      : hit.category === "produce" || hit.category === "dairy" || hit.category === "meat"
+                        ? "fridge"
+                        : "pantry";
+                  addInventory({
+                    productId: hit.id,
+                    qty: 1,
+                    location: loc === "pantry" ? "fridge" : loc,
+                    expiresOn: addDaysISO(todayISO(), shelfLifeDays(hit.category, loc === "pantry" ? "fridge" : loc)),
+                    lowAt: 1,
+                  });
+                  toast.success(`In the fridge · ${hit.name}`);
+                }}
+              >
+                <Refrigerator className="size-4" />
+                Put in fridge
+              </Button>
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => {
+                  addInventory({
+                    productId: hit.id,
+                    qty: 1,
+                    location: "pantry",
+                    expiresOn: addDaysISO(todayISO(), shelfLifeDays(hit.category, "pantry")),
+                    lowAt: 1,
+                  });
+                  toast.success(`In the cabinet · ${hit.name}`);
+                }}
+              >
+                <Warehouse className="size-4" />
+                Put in cabinet
               </Button>
             </div>
             <Button variant="ghost" className="w-full" onClick={() => setHit(null)}>
