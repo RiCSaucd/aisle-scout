@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DealsRouteImport } from './routes/deals'
 import { Route as FarmsRouteImport } from './routes/farms'
 import { Route as HouseRouteImport } from './routes/house'
+import { Route as LegalRouteImport } from './routes/legal'
 import { Route as ListRouteImport } from './routes/list'
 import { Route as LogRouteImport } from './routes/log'
 import { Route as PantryRouteImport } from './routes/pantry'
@@ -40,6 +41,11 @@ const FarmsRoute = FarmsRouteImport.update({
 const HouseRoute = HouseRouteImport.update({
   id: '/house',
   path: '/house',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRoute = LegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ListRoute = ListRouteImport.update({
@@ -88,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/deals': typeof DealsRoute
   '/farms': typeof FarmsRoute
   '/house': typeof HouseRoute
+  '/legal': typeof LegalRoute
   '/list': typeof ListRoute
   '/log': typeof LogRoute
   '/pantry': typeof PantryRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/deals': typeof DealsRoute
   '/farms': typeof FarmsRoute
   '/house': typeof HouseRoute
+  '/legal': typeof LegalRoute
   '/list': typeof ListRoute
   '/log': typeof LogRoute
   '/pantry': typeof PantryRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/deals': typeof DealsRoute
   '/farms': typeof FarmsRoute
   '/house': typeof HouseRoute
+  '/legal': typeof LegalRoute
   '/list': typeof ListRoute
   '/log': typeof LogRoute
   '/pantry': typeof PantryRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/deals'
     | '/farms'
     | '/house'
+    | '/legal'
     | '/list'
     | '/log'
     | '/pantry'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/deals'
     | '/farms'
     | '/house'
+    | '/legal'
     | '/list'
     | '/log'
     | '/pantry'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/deals'
     | '/farms'
     | '/house'
+    | '/legal'
     | '/list'
     | '/log'
     | '/pantry'
@@ -176,6 +188,7 @@ export interface RootRouteChildren {
   DealsRoute: typeof DealsRoute
   FarmsRoute: typeof FarmsRoute
   HouseRoute: typeof HouseRoute
+  LegalRoute: typeof LegalRoute
   ListRoute: typeof ListRoute
   LogRoute: typeof LogRoute
   PantryRoute: typeof PantryRoute
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/house'
       fullPath: '/house'
       preLoaderRoute: typeof HouseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal': {
+      id: '/legal'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof LegalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/list': {
@@ -280,6 +300,7 @@ const rootRouteChildren: RootRouteChildren = {
   DealsRoute: DealsRoute,
   FarmsRoute: FarmsRoute,
   HouseRoute: HouseRoute,
+  LegalRoute: LegalRoute,
   ListRoute: ListRoute,
   LogRoute: LogRoute,
   PantryRoute: PantryRoute,

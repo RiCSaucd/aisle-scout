@@ -33,6 +33,10 @@ Push to `main` or open a PR and GitHub runs typecheck, tests, a production build
 
 The interesting bits (reusable workflow, composite setup action, concurrency, Dependabot groups, OIDC notes) live in [`.github/workflows/README.md`](.github/workflows/README.md).
 
+## App Store & Google Play
+
+Capacitor wraps this same app (`com.aislescout.app`). Privacy policy is `/legal`. Step-by-step for Xcode and Android Studio is in [`store/README.md`](store/README.md). Apple ($99/yr) and Google Play ($25) developer accounts are still required to list.
+
 ## License
 
 Private project unless you add one.

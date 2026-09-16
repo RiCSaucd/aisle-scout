@@ -11,7 +11,7 @@ export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { title: APP_NAME },
       {
         name: "description",
@@ -19,6 +19,9 @@ export const Route = createRootRoute({
           "Scan shelf tags and compare grocery, pharmacy, dollar, liquor, and club prices for 32080 St. Augustine Beach.",
       },
       { name: "theme-color", content: "#0071e3" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-title", content: APP_NAME },
+      { name: "mobile-web-app-capable", content: "yes" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },

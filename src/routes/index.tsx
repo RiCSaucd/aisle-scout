@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Leaf, Refrigerator, ScanBarcode, Ticket, TriangleAlert, Truck } from "lucide-react";
-import { CATEGORY_LABEL, PRODUCT_MAP } from "@/lib/grocery/catalog";
+import { PRODUCT_MAP } from "@/lib/grocery/catalog";
 import { catalogForPrefs } from "@/lib/grocery/organic";
 import { PROMOTIONS, WEEK_LABEL } from "@/lib/grocery/promotions";
 import { expiryStatus } from "@/lib/grocery/shelf-life";
@@ -17,11 +17,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DietBar } from "@/components/grocery/diet-bar";
 import { ProductSearch } from "@/components/grocery/product-search";
-import { PriceGrid } from "@/components/grocery/price-grid";
 import { ProductSheet } from "@/components/grocery/product-sheet";
 import { StockStrip } from "@/components/grocery/stock-strip";
-import { StoreMark } from "@/components/grocery/store-mark";
 import { StoreStrip } from "@/components/grocery/store-strip";
+import { ProductTile } from "@/components/grocery/product-tile";
 
 export const Route = createFileRoute("/")({ component: Home });
 
@@ -71,11 +70,11 @@ function Home() {
           {MARKET_ZIP} · St. Augustine Beach · {WEEK_LABEL}
         </p>
         <h1 className="font-display text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-          The cheapest basket this week.
+          Groceries, priced for the beach.
         </h1>
         <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
-          The 32080 book: Publix and Winn-Dixie on A1A, CVS, Walgreens, Dollar General, ABC, the US-1 grocers,
-          and late-night c-stores. Costco and Sam’s are on it as bulk trips — they’re a haul from the beach.
+          Shop the 32080 book like Instacart — photos, a tap to add — then see who actually wins: Publix BOGO, Aldi
+          produce, Walmart rollback, or a farm stall.
         </p>
         <ProductSearch onPick={setOpenId} />
         <div className="flex flex-col gap-2 sm:flex-row">
@@ -172,40 +171,17 @@ function Home() {
       <section className="space-y-4">
         <div className="flex items-end justify-between gap-3">
           <div>
-            <h2 className="font-display text-2xl font-medium">This week's staples</h2>
-            <p className="text-sm text-muted-foreground">Sage tile is the nearby win. Clubs stay off until you ask.</p>
+            <h2 className="font-display text-2xl font-semibold">This week’s aisle</h2>
+            <p className="text-sm text-muted-foreground">Tap a photo for every store. Plus adds it to your list.</p>
           </div>
           <Button variant="ghost" asChild>
             <Link to="/prices">All prices</Link>
           </Button>
         </div>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {FEATURED.map((id) => {
-            const p = PRODUCT_MAP[id];
-            if (!p) return null;
-            const best = cheapestStore(id, 1, ctx);
-            return (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setOpenId(id)}
-                className="rounded-xl border border-border bg-card p-4 text-left shadow-[var(--shadow-card)] transition-[transform,background-color] duration-150 hover:bg-muted/40"
-              >
-                <div className="mb-3 flex items-start justify-between gap-2">
-                  <div>
-                    <div className="font-medium">{p.name}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {p.size} · {CATEGORY_LABEL[p.category]}
-                    </div>
-                  </div>
-                  {best ? (
-                    <StoreMark storeId={best.storeId} size="sm" />
-                  ) : null}
-                </div>
-                <PriceGrid productId={id} ctx={ctx} compact />
-              </button>
-            );
-          })}
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {FEATURED.map((id) => (
+            <ProductTile key={id} productId={id} ctx={ctx} onOpen={setOpenId} />
+          ))}
         </div>
       </section>
 

@@ -73,6 +73,7 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     letter-spacing: -0.011em;
+    touch-action: manipulation;
   }
 
   h1,
@@ -115,34 +116,14 @@
     background-color: var(--color-background);
     background-image:
       radial-gradient(
-        70rem 42rem at 8% -12%,
-        color-mix(in oklab, var(--color-glow-mint) 42%, transparent),
+        56rem 36rem at 12% -8%,
+        color-mix(in oklab, var(--color-glow-mint) 28%, transparent),
+        transparent 60%
+      ),
+      radial-gradient(
+        42rem 28rem at 100% 0%,
+        color-mix(in oklab, var(--color-glow-sky) 32%, transparent),
         transparent 58%
-      ),
-      radial-gradient(
-        54rem 36rem at 108% 4%,
-        color-mix(in oklab, var(--color-glow-sky) 48%, transparent),
-        transparent 54%
-      ),
-      radial-gradient(
-        46rem 28rem at 86% 108%,
-        color-mix(in oklab, var(--color-glow-citrus) 28%, transparent),
-        transparent 58%
-      ),
-      radial-gradient(
-        32rem 20rem at 40% 70%,
-        color-mix(in oklab, var(--color-primary) 8%, transparent),
-        transparent 70%
-      ),
-      repeating-linear-gradient(
-        0deg,
-        color-mix(in oklab, var(--color-foreground) 3.5%, transparent) 0 1px,
-        transparent 1px 56px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        color-mix(in oklab, var(--color-foreground) 3.5%, transparent) 0 1px,
-        transparent 1px 56px
       );
   }
 

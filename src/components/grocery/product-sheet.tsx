@@ -21,6 +21,7 @@ import {
 import { PriceGrid } from "./price-grid";
 import { StoreMark } from "./store-mark";
 import { BarcodeMark } from "./barcode-mark";
+import { photoFor } from "@/lib/grocery/photos";
 import { Link } from "@tanstack/react-router";
 
 export function ProductSheet({
@@ -48,13 +49,7 @@ export function ProductSheet({
     setQty(1);
   }, [productId]);
 
-  if (!product) {
-    return (
-      <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent />
-      </Sheet>
-    );
-  }
+  if (!product) return null;
 
   const quotes = allQuotes(product.id, qty, ctx);
   const history = priceHistory(product.id, quotes[0]?.storeId ?? "aldi", ctx);
@@ -71,6 +66,14 @@ export function ProductSheet({
         </SheetHeader>
 
         <div className="mt-6 space-y-6">
+          {photoFor(product.id) ? (
+            <img
+              src={photoFor(product.id)}
+              alt=""
+              className="aspect-square w-full rounded-xl object-cover"
+              crossOrigin="anonymous"
+            />
+          ) : null}
           <PriceGrid productId={product.id} qty={qty} ctx={ctx} />
 
           <div className="space-y-2">
