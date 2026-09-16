@@ -10,7 +10,7 @@ Grocery price book for **32080 St. Augustine Beach**. Compare Aldi, Walmart, Tar
 - **Pantry** — snap the fridge, expiry watch, cook from what you have
 - **USDA Organic** floor plus St. Augustine farms and markets
 - **Ship it** — Walmart+, Instacart, Shipt, Sam’s vs driving
-- **House** — Bluetooth / house-key fridge temperature
+- **Live listings** — home opens Walmart #579, Instacart, Publix, Target, Aldi, Flipp ads, and Shipt for 32080. Shelf logs beat the book. Official APIs (Walmart Affiliate, Instacart Platform) plug in when you add keys — we do not scrape those sites.
 
 Built for zip **32080**. Other zips get their own book when someone uses Aisle Scout there.
 

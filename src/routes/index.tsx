@@ -20,6 +20,7 @@ import { ProductSearch } from "@/components/grocery/product-search";
 import { ProductSheet } from "@/components/grocery/product-sheet";
 import { StockStrip } from "@/components/grocery/stock-strip";
 import { StoreStrip } from "@/components/grocery/store-strip";
+import { LiveListings } from "@/components/grocery/live-listings";
 import { ProductTile } from "@/components/grocery/product-tile";
 
 export const Route = createFileRoute("/")({ component: Home });
@@ -107,6 +108,7 @@ function Home() {
 
       <DietBar />
       <StockStrip />
+      <LiveListings ctx={ctx} onOpen={setOpenId} />
 
       <section className="grid gap-3 sm:grid-cols-3">
         <Card>

@@ -22,6 +22,7 @@ import { PriceGrid } from "./price-grid";
 import { StoreMark } from "./store-mark";
 import { BarcodeMark } from "./barcode-mark";
 import { photoFor } from "@/lib/grocery/photos";
+import { listingsForProduct } from "@/lib/grocery/listings";
 import { Link } from "@tanstack/react-router";
 
 export function ProductSheet({
@@ -75,6 +76,27 @@ export function ProductSheet({
             />
           ) : null}
           <PriceGrid productId={product.id} qty={qty} ctx={ctx} />
+
+          <div>
+            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Open the live listing
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {listingsForProduct(product.id)
+                .filter((l) => l.id !== "upc")
+                .map((l) => (
+                  <a
+                    key={l.id}
+                    href={l.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex h-9 items-center rounded-full bg-muted px-3 text-xs font-medium hover:bg-accent hover:text-accent-foreground"
+                  >
+                    {l.label}
+                  </a>
+                ))}
+            </div>
+          </div>
 
           <div className="space-y-2">
             {quotes.map((q) =>
