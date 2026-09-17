@@ -4,6 +4,7 @@ import { SEED_INVENTORY, SEED_LIST, SEED_STAPLES, SEED_WATCHED } from "./seed";
 import { overrideKey } from "./pricing";
 import { type PassId } from "./delivery";
 import { swapToOrganic } from "./organic";
+import { isShelfLog } from "./live";
 import type {
   InventoryItem,
   ListItem,
@@ -40,6 +41,9 @@ type GroceryState = {
   logPrices: (
     entries: { productId: string; storeId: StoreId; price: number; note?: string }[],
   ) => void;
+  applyLiveQuotes: (
+    entries: { productId: string; storeId: StoreId; price: number; note?: string }[],
+  ) => { applied: number; skipped: number };
   clearOverride: (storeId: StoreId, productId: string) => void;
   clipPromo: (id: string) => void;
   unclipPromo: (id: string) => void;
@@ -168,6 +172,20 @@ export const useGroceryStore = create<GroceryState>()(
           });
         }
         set({ overrides: next, logs: logs.slice(0, 400) });
+      },
+      applyLiveQuotes: (entries) => {
+        const logs = get().logs;
+        const kept = entries.filter((e) => {
+          const shelf = logs.find(
+            (l) =>
+              l.productId === e.productId &&
+              l.storeId === e.storeId &&
+              isShelfLog(l.note),
+          );
+          return !shelf;
+        });
+        if (kept.length) get().logPrices(kept);
+        return { applied: kept.length, skipped: entries.length - kept.length };
       },
       clearOverride: (storeId, productId) => {
         const next = { ...get().overrides };

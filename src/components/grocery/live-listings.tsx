@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
-import { ExternalLink, Radio } from "lucide-react";
+import { ExternalLink, Radio, RefreshCw } from "lucide-react";
+import { toast } from "sonner";
 import { listingsForProduct, storefronts } from "@/lib/grocery/listings";
-import { liveSourceStatus, type LiveSourceStatus } from "@/lib/grocery/live";
+import {
+  isShelfLog,
+  liveSourceStatus,
+  lookupWalmartAisle,
+  type LiveSourceStatus,
+} from "@/lib/grocery/live";
 import { PRODUCT_MAP } from "@/lib/grocery/catalog";
 import { cheapestStore, type PriceContext } from "@/lib/grocery/pricing";
 import { formatMoney } from "@/lib/grocery/format";
 import { STORE_MAP } from "@/lib/grocery/stores";
 import { useGroceryStore } from "@/lib/grocery/store";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const AISLE = [
@@ -27,7 +34,9 @@ export function LiveListings({
   onOpen: (id: string) => void;
 }) {
   const logs = useGroceryStore((s) => s.logs);
+  const applyLiveQuotes = useGroceryStore((s) => s.applyLiveQuotes);
   const [status, setStatus] = useState<LiveSourceStatus | null>(null);
+  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     liveSourceStatus()
@@ -42,17 +51,48 @@ export function LiveListings({
       });
   }, []);
 
+  async function refreshWalmart() {
+    setBusy(true);
+    try {
+      const res = await lookupWalmartAisle({ data: { productIds: AISLE } });
+      if (!res.ok) {
+        toast.message(
+          res.reason === "missing-keys"
+            ? "Walmart I/O needs WALMART_CONSUMER_ID and WALMART_PRIVATE_KEY. Use the Walmart #579 chip until those keys are on the server."
+            : "Walmart I/O didn’t return prices. Try the Walmart #579 chip.",
+        );
+        return;
+      }
+      const { applied, skipped } = applyLiveQuotes(res.quotes);
+      toast.success(
+        applied
+          ? `Walmart I/O updated ${applied} · kept ${skipped} shelf log${skipped === 1 ? "" : "s"}`
+          : skipped
+            ? "Every Walmart price already has a shelf log — those win."
+            : "No Walmart hits for this aisle.",
+      );
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <section className="space-y-4">
-      <div>
-        <div className="flex items-center gap-2">
-          <Radio className="size-4 text-primary" />
-          <h2 className="font-display text-2xl font-semibold">Active listings</h2>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className="flex items-center gap-2">
+            <Radio className="size-4 text-primary" />
+            <h2 className="font-display text-2xl font-semibold">Active listings</h2>
+          </div>
+          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            {status?.note ??
+              "Walmart #579 by UPC search, Instacart list push, and your scanned tags. The tag always wins."}
+          </p>
         </div>
-        <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          {status?.note ??
-            "We open Walmart, Instacart, Publix, Target, Aldi, and Flipp for 32080. We do not scrape those sites — their terms forbid it and the prices would lie. Your logged shelf tag is still the most accurate number in St. Augustine."}
-        </p>
+        <Button variant="outline" onClick={() => void refreshWalmart()} disabled={busy}>
+          <RefreshCw className={`size-4 ${busy ? "animate-spin" : ""}`} />
+          {status?.walmartAffiliate ? "Refresh Walmart #579" : "Walmart #579 lookup"}
+        </Button>
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-1">
@@ -79,6 +119,7 @@ export function LiveListings({
             .filter((l) => l.productId === id)
             .sort((a, b) => b.observedAt.localeCompare(a.observedAt))[0];
           const links = listingsForProduct(id).filter((l) => l.id !== "upc");
+          const shelf = log && isShelfLog(log.note);
           return (
             <Card key={id}>
               <CardHeader className="pb-2">
@@ -95,8 +136,9 @@ export function LiveListings({
                     </Badge>
                   ) : null}
                   {log ? (
-                    <Badge variant="warn">
-                      You logged {formatMoney(log.price)} at {STORE_MAP[log.storeId].short}
+                    <Badge variant={shelf ? "warn" : "deal"}>
+                      {shelf ? "Shelf " : "Walmart I/O "}
+                      {formatMoney(log.price)} at {STORE_MAP[log.storeId].short}
                     </Badge>
                   ) : (
                     <Badge>No shelf log yet</Badge>

@@ -10,7 +10,7 @@ Grocery price book for **32080 St. Augustine Beach**. Compare Aldi, Walmart, Tar
 - **Pantry** — snap the fridge, expiry watch, cook from what you have
 - **USDA Organic** floor plus St. Augustine farms and markets
 - **Ship it** — Walmart+, Instacart, Shipt, Sam’s vs driving
-- **Live listings** — home opens Walmart #579, Instacart, Publix, Target, Aldi, Flipp ads, and Shipt for 32080. Shelf logs beat the book. Official APIs (Walmart Affiliate, Instacart Platform) plug in when you add keys — we do not scrape those sites.
+- **Live listings** — home opens Walmart #579, Instacart, Publix, Target, Aldi, Flipp ads, and Shipt for 32080. **Refresh Walmart #579** calls Walmart I/O (RSA-signed product search) when `WALMART_CONSUMER_ID` + `WALMART_PRIVATE_KEY` are set; **Send to Instacart** POSTs `/idp/v1/products/products_link` when `INSTACART_API_KEY` is set. Scanned shelf tags always beat those feeds.
 
 Built for zip **32080**. Other zips get their own book when someone uses Aisle Scout there.
 

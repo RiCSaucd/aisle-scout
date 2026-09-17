@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Minus, Plus, ScanBarcode, Trash2, Truck } from "lucide-react";
+import { Minus, Plus, ScanBarcode, ShoppingBag, Trash2, Truck } from "lucide-react";
 import { toast } from "sonner";
 import { PRODUCT_MAP } from "@/lib/grocery/catalog";
 import { formatMoney } from "@/lib/grocery/format";
@@ -9,6 +9,7 @@ import { STORE_MAP } from "@/lib/grocery/stores";
 import { useGroceryStore } from "@/lib/grocery/store";
 import { usePriceContext } from "@/lib/grocery/hooks";
 import { allPlans } from "@/lib/grocery/optimizer";
+import { pushInstacartList } from "@/lib/grocery/live";
 import { STORE_IDS, type StoreId } from "@/lib/grocery/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -54,6 +55,7 @@ function ListPage() {
   const [shopOnly, setShopOnly] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
   const [planIndex, setPlanIndex] = useState(0);
+  const [pushing, setPushing] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -93,6 +95,43 @@ function ListPage() {
               <Truck className="size-4" />
               Ship this list
             </Link>
+          </Button>
+          <Button
+            variant="outline"
+            disabled={pushing || active.length === 0}
+            onClick={() => {
+              void (async () => {
+                setPushing(true);
+                try {
+                  const res = await pushInstacartList({
+                    data: {
+                      title: "Aisle Scout · 32080",
+                      items: active.map((i) => ({ productId: i.productId, qty: i.qty })),
+                    },
+                  });
+                  if (res.ok) {
+                    window.open(res.url, "_blank", "noreferrer");
+                    toast.success("List is on Instacart");
+                    return;
+                  }
+                  const lines = active
+                    .map((i) => `${i.qty} × ${PRODUCT_MAP[i.productId]?.name ?? i.productId}`)
+                    .join("\n");
+                  await navigator.clipboard.writeText(lines).catch(() => undefined);
+                  window.open(res.fallbackUrl, "_blank", "noreferrer");
+                  toast.message(
+                    res.reason === "missing-keys"
+                      ? "No INSTACART_API_KEY yet — list copied, Instacart opened for 32080."
+                      : "Instacart didn’t accept the list — copied it and opened 32080.",
+                  );
+                } finally {
+                  setPushing(false);
+                }
+              })();
+            }}
+          >
+            <ShoppingBag className="size-4" />
+            {pushing ? "Sending…" : "Send to Instacart"}
           </Button>
           <Button
             variant="outline"
