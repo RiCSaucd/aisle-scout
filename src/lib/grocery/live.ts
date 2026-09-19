@@ -4,6 +4,8 @@ import { upcFor } from "./barcodes";
 import { productQuery } from "./listings";
 import type { StoreId, Unit } from "./types";
 
+export { isShelfLog, keepLiveQuotes } from "./live-rules";
+
 export type LiveSourceStatus = {
   zip: string;
   walmartAffiliate: boolean;
@@ -20,10 +22,6 @@ export type LiveQuote = {
   url?: string;
   note: string;
 };
-
-export function isShelfLog(note?: string): boolean {
-  return !note?.startsWith("live:");
-}
 
 function walmartReady() {
   return Boolean(process.env.WALMART_CONSUMER_ID && process.env.WALMART_PRIVATE_KEY);

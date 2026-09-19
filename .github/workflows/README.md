@@ -9,7 +9,7 @@ Aisle Scout uses the patterns that matter in 2026: reuse, least privilege, cance
 | [`security.yml`](security.yml) | CodeQL every week + on PRs. Dependency review on PRs. |
 | [`release.yml`](release.yml) | Tag `v1.2.3` or run manually to cut a GitHub Release. |
 | [`../actions/setup-aisle`](../actions/setup-aisle/action.yml) | **Composite action**. Node 22 + `npm ci` with cache. |
-| [`../dependabot.yml`](../dependabot.yml) | Weekly npm and Actions bumps, grouped so TanStack/Radix don’t spam you. |
+| [`../dependabot.yml`](../dependabot.yml) | Weekly npm and Actions bumps. TanStack/Radix/`@types` are grouped; Actions bumps share one PR; `@types/node` majors are ignored. |
 
 ## Why these shapes
 
@@ -24,6 +24,6 @@ Aisle Scout uses the patterns that matter in 2026: reuse, least privilege, cance
 - Push to `main` or open a PR → CI + CodeQL.
 - **Actions → CI → Run workflow** → optional skip of the production build.
 - Tag a version: `git tag v0.1.0 && git push origin v0.1.0` → Release.
-- Dependabot opens grouped PRs on Mondays.
+- Dependabot opens grouped PRs on Mondays. Action bumps land in one PR. It will not open a major `@types/node` bump.
 
 GitHub will ask you to enable Actions the first time if the org has them off. Public repos get CodeQL and dependency review for free.
