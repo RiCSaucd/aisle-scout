@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { copyText } from "@/lib/utils";
 
 export const Route = createFileRoute("/house")({
   component: HousePage,
@@ -208,12 +209,9 @@ function HousePage() {
                 variant="outline"
                 onClick={async () => {
                   const key = apiKey || ensureKey();
-                  try {
-                    await navigator.clipboard.writeText(key);
-                    toast.success("Key copied");
-                  } catch {
-                    toast.error("Copy failed — reveal and select it");
-                  }
+                  const ok = await copyText(key);
+                  if (ok) toast.success("Key copied");
+                  else toast.error("Copy failed — reveal and select it");
                 }}
               >
                 <Copy className="size-4" />

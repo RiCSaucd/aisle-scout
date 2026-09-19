@@ -11,6 +11,7 @@ import { usePriceContext } from "@/lib/grocery/hooks";
 import { allPlans } from "@/lib/grocery/optimizer";
 import { pushInstacartList } from "@/lib/grocery/live";
 import { STORE_IDS, type StoreId } from "@/lib/grocery/types";
+import { cn, copyText } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -102,6 +103,7 @@ function ListPage() {
             onClick={() => {
               void (async () => {
                 setPushing(true);
+                const popup = window.open("about:blank", "_blank", "noreferrer");
                 try {
                   const res = await pushInstacartList({
                     data: {
@@ -109,20 +111,25 @@ function ListPage() {
                       items: active.map((i) => ({ productId: i.productId, qty: i.qty })),
                     },
                   });
+                  const dest = res.ok ? res.url : res.fallbackUrl;
+                  if (popup) popup.location.replace(dest);
+                  else window.open(dest, "_blank", "noreferrer");
                   if (res.ok) {
-                    window.open(res.url, "_blank", "noreferrer");
                     toast.success("List is on Instacart");
                     return;
                   }
                   const lines = active
                     .map((i) => `${i.qty} × ${PRODUCT_MAP[i.productId]?.name ?? i.productId}`)
                     .join("\n");
-                  await navigator.clipboard.writeText(lines).catch(() => undefined);
-                  window.open(res.fallbackUrl, "_blank", "noreferrer");
+                  const copied = await copyText(lines);
                   toast.message(
                     res.reason === "missing-keys"
-                      ? "No INSTACART_API_KEY yet — list copied, Instacart opened for 32080."
-                      : "Instacart didn’t accept the list — copied it and opened 32080.",
+                      ? copied
+                        ? "No INSTACART_API_KEY yet — list copied, Instacart opened for 32080."
+                        : "Instacart opened for 32080. Copy the list from Aisle Scout if the tab is blank."
+                      : copied
+                        ? "Instacart didn’t accept the list — copied it and opened 32080."
+                        : "Instacart opened for 32080. Paste your list there if asked.",
                   );
                 } finally {
                   setPushing(false);

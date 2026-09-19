@@ -2,6 +2,9 @@
 
 Grocery price book for **32080 St. Augustine Beach**. Compare Aldi, Walmart, Target, Publix, Winn-Dixie, CVS, Walgreens, dollar stores, ABC, clubs, and local farms — then shop, scan, stock the fridge, or ship it.
 
+**Source:** [github.com/RiCSaucd/aisle-scout](https://github.com/RiCSaucd/aisle-scout) (public, all rights reserved).  
+**Live web:** Grok preview in this chat. Vercel is ready to host as soon as the team billing card is valid ([Vercel billing](https://vercel.com/teams/hatcheric950-8386s-projects/settings/billing)). Do not overwrite the existing Netlify site (`nexus-lead-desk`).
+
 ## What’s in it
 
 - **Price book** with BOGOs, Circle deals, rollbacks, and coupons
@@ -13,6 +16,10 @@ Grocery price book for **32080 St. Augustine Beach**. Compare Aldi, Walmart, Tar
 - **Live listings** — home opens Walmart #579, Instacart, Publix, Target, Aldi, Flipp ads, and Shipt for 32080. **Refresh Walmart #579** calls Walmart I/O (RSA-signed product search) when `WALMART_CONSUMER_ID` + `WALMART_PRIVATE_KEY` are set; **Send to Instacart** POSTs `/idp/v1/products/products_link` when `INSTACART_API_KEY` is set. Scanned shelf tags always beat those feeds.
 
 Built for zip **32080**. Other zips get their own book when someone uses Aisle Scout there.
+
+## Patent, brand, funding
+
+Not legal advice. The public repo started a **US 12-month grace period**. File a **provisional** with a patent attorney before you advertise hard. Checklist: [`docs/IP.md`](docs/IP.md). Investor one-pager: [`docs/PITCH.md`](docs/PITCH.md). Do not print “Patent pending” until USPTO gives you a filing receipt.
 
 ## Stack
 
@@ -39,4 +46,4 @@ Capacitor wraps this same app (`com.aislescout.app`). Privacy policy is `/legal`
 
 ## License
 
-Private project unless you add one.
+All rights reserved. See [`LICENSE`](LICENSE). Public on GitHub is not permission to clone the product.

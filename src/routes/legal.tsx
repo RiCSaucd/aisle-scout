@@ -8,7 +8,7 @@ function Legal() {
       <header className="space-y-2">
         <p className="text-sm font-medium text-muted-foreground">Aisle Scout</p>
         <h1 className="font-display text-4xl font-semibold tracking-tight">Privacy & terms</h1>
-        <p className="text-sm text-muted-foreground">Last updated September 16, 2026. Required for App Store and Google Play.</p>
+        <p className="text-sm text-muted-foreground">Last updated September 19, 2026. Required for App Store and Google Play.</p>
       </header>
 
       <section className="space-y-2 text-sm leading-relaxed text-muted-foreground">
@@ -47,6 +47,14 @@ function Legal() {
       <section className="space-y-2 text-sm leading-relaxed text-muted-foreground">
         <h2 className="font-display text-xl font-semibold text-foreground">Children</h2>
         <p>Aisle Scout is for grocery shoppers 13 and older. We do not knowingly collect data from children.</p>
+      </section>
+
+      <section className="space-y-2 text-sm leading-relaxed text-muted-foreground">
+        <h2 className="font-display text-xl font-semibold text-foreground">Copyright</h2>
+        <p>
+          Aisle Scout source and brand are all rights reserved. Public GitHub is so you can review the product, not
+          copy it.
+        </p>
       </section>
 
       <section className="space-y-2 text-sm leading-relaxed text-muted-foreground">
