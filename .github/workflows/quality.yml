@@ -47,7 +47,6 @@ jobs:
         with:
           node-version: ${{ inputs.node-version || '22' }}
       - run: npm run test:ci
-      - run: npm run check:auth
 
   build:
     name: Production build

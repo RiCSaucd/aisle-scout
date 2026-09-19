@@ -5,7 +5,7 @@ Aisle Scout uses the patterns that matter in 2026: reuse, least privilege, cance
 | File | What it is |
 | --- | --- |
 | [`ci.yml`](ci.yml) | Caller. Runs on `main`, PRs, and manual dispatch. |
-| [`quality.yml`](quality.yml) | **Reusable** (`workflow_call`). Typecheck, tests, production build, artifact. |
+| [`quality.yml`](quality.yml) | **Reusable** (`workflow_call`). Typecheck, tests, production build, artifact. `check:auth` is a live-preview probe, not a CI step. |
 | [`security.yml`](security.yml) | CodeQL every week + on PRs. Dependency review on PRs. |
 | [`release.yml`](release.yml) | Tag `v1.2.3` or run manually to cut a GitHub Release. |
 | [`../actions/setup-aisle`](../actions/setup-aisle/action.yml) | **Composite action**. Node 22 + `npm ci` with cache. |
