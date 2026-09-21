@@ -19,7 +19,7 @@ Built for zip **32080**. Other zips get their own book when someone uses Aisle S
 
 ## Patent, brand, funding
 
-Not legal advice. The public repo started a **US 12-month grace period**. File a **provisional** with a patent attorney before you advertise hard. Checklist: [`docs/IP.md`](docs/IP.md). Investor one-pager: [`docs/PITCH.md`](docs/PITCH.md). Do not print “Patent pending” until USPTO gives you a filing receipt.
+Not legal advice. The public repo started a **US 12-month grace period**. File a **provisional** with a patent attorney before you advertise hard. Checklist: [`docs/IP.md`](docs/IP.md). Investor one-pager: [`docs/PITCH.md`](docs/PITCH.md). How ads pay in 32080: [`docs/BUSINESS.md`](docs/BUSINESS.md). Do not print “Patent pending” until USPTO gives you a filing receipt.
 
 ## Stack
 

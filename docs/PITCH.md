@@ -28,7 +28,7 @@ Repo: [github.com/RiCSaucd/aisle-scout](https://github.com/RiCSaucd/aisle-scout)
 
 ## Ask
 
-**Pre-seed, $150–250k** for 12 months:
+**Pre-seed, $150–250k** for 12 months. How ads pay (farms, ABC, dollar, then CPG) is in [`docs/BUSINESS.md`](BUSINESS.md).
 
 | Use | Share |
 | --- | --- |
