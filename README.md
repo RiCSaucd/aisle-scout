@@ -3,7 +3,7 @@
 Grocery price book for **32080 St. Augustine Beach**. Compare Aldi, Walmart, Target, Publix, Winn-Dixie, CVS, Walgreens, dollar stores, ABC, clubs, and local farms — then shop, scan, stock the fridge, or ship it.
 
 **Source:** [github.com/RiCSaucd/aisle-scout](https://github.com/RiCSaucd/aisle-scout) (public, all rights reserved).  
-**Live web:** Grok preview in this chat. Vercel is ready to host as soon as the team billing card is valid ([Vercel billing](https://vercel.com/teams/hatcheric950-8386s-projects/settings/billing)). Do not overwrite the existing Netlify site (`nexus-lead-desk`).
+**Live web:** [aisle-scout.netlify.app](https://aisle-scout.netlify.app) (Netlify). Vercel stays blocked until a card is on [team billing](https://vercel.com/teams/hatcheric950-8386s-projects/settings/billing).
 
 ## What’s in it
 
