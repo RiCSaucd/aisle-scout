@@ -163,14 +163,37 @@ We raise to **buy density and a name**, not a national sales team.
 
 #### Product C — List native (local CPG)
 
-| | |
-| --- | --- |
-| Who | Local coffee, hot sauce, honey, kombucha, beer, bakery |
-| Unit | “Add to list” sponsored row when the shopper already has a related item |
-| Price | **$8–15 CPM** equivalent, or **$500 / month** guaranteed until volume exists |
-| Floor** | Instacart display ~**$15 CPM**. We open lower for locals, raise when WAU > 1,000. |
+What a **St. Johns maker** (honey, salsa, coffee, bakery, beer, kombucha) already pays elsewhere, 2026:
 
-2 brands × $500 × 6 months ≈ **$6k** year-1.
+| Channel | What they pay | What they get |
+| --- | --- | --- |
+| Meta / IG geo to 32080 | **$8–15 CPM**, **$0.50–$3 CPC**, typical **$300–1,500 / mo** | Reach, weak grocery attribution |
+| Jacksonville Google (blended) | ~**$0.70 CPC** DMA average | Search, not the aisle |
+| JAX / St. Johns Town Center / Nocatee DOOH | **$8–25 CPM**; **$2.5k–$12k / mo** per unit | Awareness, not a list |
+| Grocery in-store screens (network floor) | ~**$0.66–$1.20 CPM** | Cheap wallpaper |
+| Instacart display / video | **~$15 CPM floor**; ~$0.72 CPC cited | Most locals never clear the feed |
+| Amp / Pier stall | **$42–$55 / day**; Saturday sales often **$500–$2,000** | They already buy this |
+| Local foodie / newsletter analog | **$350–$500 / mo** ROS or newsletter | City-level, not SKU-level |
+| Regional craft (beer magazine ¼ page) | **~$700** per insert | Drinkers, not 32080 shoppers |
+
+**What they can actually write a check for**
+
+- Stall / cottage brand (~$80–250k sales): **$200–500 / month** is 3–5% of a slow month. Ceiling, not opener.
+- Coffee / bakery with a shop: **$300–1,500 / month** already on Meta. Aisle Scout is a **slice**, not a replacement.
+- ABC-distributed beer / regional salsa: **$1,500–5,000 / month** media is normal; **$800–1,500** for a 32080 geo test is a rounding error next to Publix slotting.
+
+**Aisle Scout rate card (sell weeks until 1,000 WAU)**
+
+| Unit | Open | Target once 1k WAU | Do not exceed |
+| --- | --- | --- | --- |
+| List native (row when the list already has salsa / beer / coffee) | **$350–600 / mo** | **$8–12 CPM** | Instacart’s **~$15 CPM** until we are two zips |
+| Home “local makers” tile | **$250–400 / mo** | same CPM | Never covers a scanned price |
+| Saturday Amp/Pier push add-on | **$150–250** | — | One per week |
+| 4-week launch pack (tile + native + one push) | **$900–1,200** | — | First invoice a maker will actually pay |
+| Regional Florida CPG (year 2) | — | **$12–18 CPM** or **$1,000–2,500 / mo** geo | Agency RFP |
+
+Year-1 target stays **2 brands × ~$500 × 6 months ≈ $6k**. The rate card is the asset; volume comes after density. Rule unchanged: **a scanned shelf price is never replaced by a sponsored price.**
+
 
 #### Product D — Saturday push (owned audience)
 
