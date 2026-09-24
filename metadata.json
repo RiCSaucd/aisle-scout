@@ -1,0 +1,6 @@
+{
+  "name": "Aisle Scout",
+  "description": "Compare 32080 grocery prices across Aldi, Walmart, Target, Publix, and local farms. Price book, deal optimizer, trip planner, and pantry tracker.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

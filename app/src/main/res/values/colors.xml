@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_blue">#0071E3</color>
+    <color name="primary_dark">#0A84FF</color>
+    <color name="aldi_blue">#1D4E89</color>
+    <color name="publix_green">#248A3D</color>
+    <color name="target_red">#CC0000</color>
+    <color name="walmart_blue">#0071CE</color>
+    <color name="beach_sand">#F5F5F7</color>
+    <color name="text_dark">#1D1D1F</color>
+    <color name="text_muted">#6E6E73</color>
+</resources>
