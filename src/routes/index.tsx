@@ -77,6 +77,13 @@ function Home() {
           Shop the 32080 book like Instacart — photos, a tap to add — then see who actually wins: Publix BOGO, Aldi
           produce, Walmart rollback, or a farm stall.
         </p>
+        <a
+          href="https://aisle-scout.netlify.app"
+          className="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground"
+        >
+          Open the live app
+          <ArrowRight className="size-4" />
+        </a>
         <ProductSearch onPick={setOpenId} />
         <div className="flex flex-col gap-2 sm:flex-row">
           <Button asChild>

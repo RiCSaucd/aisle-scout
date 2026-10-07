@@ -59,6 +59,12 @@ export function AppShell({ children }: { children: ReactNode }) {
             <div className="mt-1 text-xs text-muted-foreground">
               {MARKET_ZIP} · {WEEK_LABEL}
             </div>
+            <a
+              href="https://aisle-scout.netlify.app"
+              className="mt-3 inline-flex text-xs font-medium text-primary hover:underline"
+            >
+              aisle-scout.netlify.app
+            </a>
           </Link>
           <nav className="mt-8 flex flex-1 flex-col gap-1">
             {NAV.map((item) => {
@@ -169,6 +175,12 @@ function MoreMenu() {
               </Link>
             );
           })}
+          <a
+            href="https://aisle-scout.netlify.app"
+            className="mt-2 flex h-12 items-center gap-3 rounded-xl px-3 text-sm font-medium text-primary hover:bg-muted"
+          >
+            Open the live app
+          </a>
         </nav>
       </SheetContent>
     </Sheet>
