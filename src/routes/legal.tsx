@@ -8,7 +8,7 @@ function Legal() {
       <header className="space-y-2">
         <p className="text-sm font-medium text-muted-foreground">Aisle Scout</p>
         <h1 className="font-display text-4xl font-semibold tracking-tight">Privacy & terms</h1>
-        <p className="text-sm text-muted-foreground">Last updated September 19, 2026. Required for App Store and Google Play.</p>
+        <p className="text-sm text-muted-foreground">Last updated October 19, 2026. Required for App Store and Google Play.</p>
       </header>
 
       <section className="space-y-2 text-sm leading-relaxed text-muted-foreground">
@@ -25,6 +25,22 @@ function Legal() {
         <p>
           The scanner and fridge snap use the camera only when you tap Scan or Snap. Shelf photos may be sent to a
           vision service to read items. We do not keep a server-side photo album.
+        </p>
+      </section>
+
+      <section className="space-y-2 text-sm leading-relaxed text-muted-foreground">
+        <h2 className="font-display text-xl font-semibold text-foreground">Android app</h2>
+        <p>
+          The Aisle Scout Android app works offline and has no account or sign-in. Your list, pantry, and clipped deals
+          are stored only on your phone, and uninstalling the app deletes them. The barcode scanner reads codes on your
+          phone using Google ML Kit. Camera frames are not saved or uploaded. The Android app does not include the house
+          key or fridge photo features, and it does not send photos to a vision service.
+        </p>
+        <p>
+          Google ML Kit sends Google basic diagnostics and usage data (device model and OS version, app name and version,
+          a per-install ID, performance metrics, and error codes) so Google can keep the scanner working. This data is
+          encrypted in transit, is not used to identify you, and is not shared with third parties by Aisle Scout. The
+          app has no ads and no analytics of its own.
         </p>
       </section>
 
