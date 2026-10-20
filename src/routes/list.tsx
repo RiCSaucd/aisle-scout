@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Minus, Plus, ScanBarcode, ShoppingBag, Trash2, Truck } from "lucide-react";
+import { Download, Minus, Plus, ScanBarcode, ShoppingBag, Trash2, Truck } from "lucide-react";
 import { toast } from "sonner";
 import { PRODUCT_MAP } from "@/lib/grocery/catalog";
 import { formatMoney } from "@/lib/grocery/format";
@@ -10,6 +10,7 @@ import { useGroceryStore } from "@/lib/grocery/store";
 import { usePriceContext } from "@/lib/grocery/hooks";
 import { allPlans } from "@/lib/grocery/optimizer";
 import { pushInstacartList } from "@/lib/grocery/live";
+import { listCsvFilename, listToCsv } from "@/lib/grocery/list-csv";
 import { STORE_IDS, type StoreId } from "@/lib/grocery/types";
 import { cn, copyText } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -150,6 +151,41 @@ function ListPage() {
             }}
           >
             Add missing staples
+          </Button>
+          <Button
+            variant="outline"
+            disabled={active.length === 0}
+            onClick={() => {
+              const csv = listToCsv(
+                active.map((i) => {
+                  const product = PRODUCT_MAP[i.productId];
+                  const best = cheapestStore(i.productId, i.qty, ctx);
+                  const assigned =
+                    i.preferredStore === "cheapest" ? best?.storeId : i.preferredStore;
+                  return {
+                    item: product?.name ?? i.productId,
+                    size: product?.size ?? "",
+                    qty: i.qty,
+                    assignedStore: assigned ? STORE_MAP[assigned].short : "",
+                    cheapestStore: best ? STORE_MAP[best.storeId].short : "",
+                    cheapestPrice: best ? best.quote.cost : null,
+                  };
+                }),
+              );
+              const filename = listCsvFilename(new Date());
+              const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = filename;
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              setTimeout(() => URL.revokeObjectURL(url), 0);
+              toast.success(`Saved ${filename} to your downloads`);
+            }}
+          >
+            <Download className="size-4" />
+            Export CSV
           </Button>
         </div>
       </header>
