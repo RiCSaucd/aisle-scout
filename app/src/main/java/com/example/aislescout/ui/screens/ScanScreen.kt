@@ -414,7 +414,7 @@ fun ScanScreen(
                         }
 
                         // Product Lookup Bottom Sheet Overlay
-                        AnimatedVisibility(
+                        androidx.compose.animation.AnimatedVisibility(
                             visible = identifiedProduct != null,
                             enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
                             exit = slideOutVertically(targetOffsetY = { it }) + fadeOut(),

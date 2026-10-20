@@ -10,3 +10,12 @@ artifacts/
 dist/
 *.local
 .DS_Store
+# Android / Gradle
+.gradle/
+build/
+app/build/
+local.properties
+keystore.properties
+*.jks
+*.keystore
+build/reports/

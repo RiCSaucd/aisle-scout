@@ -42,7 +42,7 @@ The interesting bits (reusable workflow, composite setup action, concurrency, De
 
 ## App Store & Google Play
 
-Capacitor wraps this same app (`com.aislescout.app`). Privacy policy is `/legal`. Step-by-step for Xcode and Android Studio is in [`store/README.md`](store/README.md). Apple ($99/yr) and Google Play ($25) developer accounts are still required to list.
+iOS ships a Capacitor shell (`ios/`) around the live site; Google Play ships the native Kotlin app (`app/`). Both use `com.aislescout.app`. Step-by-step, signing, and listing assets are in [`store/README.md`](store/README.md). Apple ($99/yr) and Google Play ($25) developer accounts are still required to list.
 
 ## License
 

@@ -21,8 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.aislescout.data.model.Product
-import com.example.aislescout.data.repository.PromotionData
-import com.example.aislescout.data.model.Product
 import com.example.aislescout.data.model.ProductCategory
 import com.example.aislescout.data.model.StorageLocation
 import com.example.aislescout.data.repository.PromotionData
@@ -48,7 +46,7 @@ fun ProductLookupSheet(
     var pantryQuantity by remember(product.id) { mutableStateOf(1.0) }
     var selectedLocation by remember(product.id) {
         val defaultLoc = when (product.category) {
-            ProductCategory.DAIRY, ProductCategory.MEAT_SEAFOOD -> StorageLocation.FRIDGE
+            ProductCategory.DAIRY, ProductCategory.MEAT -> StorageLocation.FRIDGE
             ProductCategory.FROZEN -> StorageLocation.FREEZER
             ProductCategory.PRODUCE -> StorageLocation.FRIDGE
             else -> StorageLocation.PANTRY
@@ -273,7 +271,7 @@ fun ProductLookupSheet(
                                         fontWeight = FontWeight.Bold
                                     )
                                     Text(
-                                        text = "${store?.milesFromCenter32080 ?: 2.5} mi from Beach",
+                                        text = "${store?.distanceMiles ?: 2.5} mi from Beach",
                                         style = MaterialTheme.typography.bodySmall,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                                         fontSize = 11.sp

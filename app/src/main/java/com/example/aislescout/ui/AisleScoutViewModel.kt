@@ -150,11 +150,14 @@ class AisleScoutViewModel(application: Application) : AndroidViewModel(applicati
     ) {
         val (defaultLocation, shelfLife) = when (product.category) {
             ProductCategory.DAIRY -> StorageLocation.FRIDGE to 10
-            ProductCategory.MEAT_SEAFOOD -> StorageLocation.FRIDGE to 4
+            ProductCategory.MEAT -> StorageLocation.FRIDGE to 4
             ProductCategory.PRODUCE -> StorageLocation.FRIDGE to 7
             ProductCategory.BAKERY -> StorageLocation.PANTRY to 6
-            ProductCategory.PANTRY_STAPLES,
-            ProductCategory.SNACKS_BEVERAGES -> StorageLocation.PANTRY to 90
+            ProductCategory.PANTRY,
+            ProductCategory.BEVERAGES,
+            ProductCategory.ALCOHOL -> StorageLocation.PANTRY to 90
+            ProductCategory.HOUSEHOLD,
+            ProductCategory.PERSONAL -> StorageLocation.PANTRY to 365
             ProductCategory.FROZEN -> StorageLocation.FREEZER to 90
         }
         val targetLocation = customLocation ?: defaultLocation

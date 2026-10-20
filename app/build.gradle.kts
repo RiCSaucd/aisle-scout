@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,22 +7,45 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+// Play upload key: keystore.properties (local, gitignored) or ANDROID_KEYSTORE_* env (CI).
+val keystoreProps = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+fun signingValue(prop: String, env: String): String? =
+    keystoreProps.getProperty(prop) ?: System.getenv(env)?.takeIf { it.isNotBlank() }
+
+val uploadStoreFile = signingValue("storeFile", "ANDROID_KEYSTORE_PATH")
+
 android {
     namespace = "com.example.aislescout"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.aistudio.aislescout.staug"
+        applicationId = "com.aislescout.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
+        // CI passes the run number so every Play upload gets a higher code.
+        versionCode = System.getenv("ANDROID_VERSION_CODE")?.toIntOrNull() ?: 1
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        if (uploadStoreFile != null) {
+            create("upload") {
+                storeFile = rootProject.file(uploadStoreFile)
+                storePassword = signingValue("storePassword", "ANDROID_KEYSTORE_PASSWORD")
+                keyAlias = signingValue("keyAlias", "ANDROID_KEY_ALIAS")
+                keyPassword = signingValue("keyPassword", "ANDROID_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig = signingConfigs.findByName("upload")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
