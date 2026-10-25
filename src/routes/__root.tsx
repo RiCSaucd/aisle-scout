@@ -3,6 +3,7 @@ import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { AppShell } from "@/components/layout/app-shell";
 import { Toaster } from "@/components/ui/sonner";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "Aisle Scout";
@@ -50,6 +51,7 @@ export const Route = createRootRoute({
           <Toaster />
         </AuthProvider>
         <Scripts />
+        <SpeedInsights />
       </body>
     </html>
   ),
