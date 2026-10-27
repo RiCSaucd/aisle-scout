@@ -1,6 +1,10 @@
 # Aisle Scout on the App Store and Google Play
 
-The live app is a PWA (Add to Home Screen works today). Native store listings wrap that same app with **Capacitor**.
+The live app is a PWA (Add to Home Screen works today).
+
+- **Android:** a native Kotlin app in `app/`, ready for Google Play. Follow
+  **[google-play.md](google-play.md)** for the upload steps, listing copy and form answers.
+- **iOS:** not started. The plan below wraps the web app with **Capacitor**.
 
 | | Apple | Google |
 | --- | --- | --- |
@@ -10,18 +14,16 @@ The live app is a PWA (Add to Home Screen works today). Native store listings wr
 | Category | Shopping | Shopping |
 | Age | 13+ | Everyone |
 
-## One-time native projects
+## One-time iOS project
 
-On a Mac with Xcode 16+ and Android Studio:
+On a Mac with Xcode 16+:
 
 ```bash
 npm install
 npx cap add ios
-npx cap add android
 npm run build
 npx cap sync
 npx cap open ios
-npx cap open android
 ```
 
 Point the WebView at your hosted Aisle Scout URL (Grok deploy or Vercel) in `capacitor.config.ts` under `server.url` so grocery prices update without a store resubmit.
@@ -43,4 +45,4 @@ Use the home aisle (2-column product photos), Scan, List, and Ship screens at iP
 
 ## You still need
 
-Apple and Google will not list a binary from this chat. After `cap open`, archive in Xcode / bundle in Android Studio, then submit. Capacitor plugins already wired: StatusBar, SplashScreen.
+Apple will not list a binary from this chat. After `cap open`, archive in Xcode, then submit. Capacitor plugins already wired: StatusBar, SplashScreen. (Android has its own listing copy and screenshots in `google-play.md` and `google-play/`.)
