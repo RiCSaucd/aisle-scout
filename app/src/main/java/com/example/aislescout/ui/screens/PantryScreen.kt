@@ -201,7 +201,8 @@ fun PantryScreen(
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(
+            // The empty state has its own Scan and Add buttons; a FAB there would cover "Add Manually".
+            if (filteredItems.isNotEmpty()) ExtendedFloatingActionButton(
                 onClick = onNavigateToScan,
                 icon = { Icon(Icons.Default.QrCodeScanner, contentDescription = null) },
                 text = { Text("Scan Barcode", fontWeight = FontWeight.Bold) },
@@ -682,7 +683,7 @@ fun PantryItemCard(
                     ) {
                         // Storage location badge
                         val locationBg = when (item.location) {
-                            StorageLocation.PANTRY -> SunsetAmber.copy(alpha = 0.15f)
+                            StorageLocation.PANTRY -> CoralOrange.copy(alpha = 0.15f)
                             StorageLocation.FRIDGE -> OceanBlueLight
                             StorageLocation.FREEZER -> Color(0xFFE0F2FE)
                             StorageLocation.OTHER -> MaterialTheme.colorScheme.surfaceVariant
@@ -1182,32 +1183,32 @@ fun AddPantryItemDialog(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     item {
-                        PresetChip("🥛 Whole Milk") {
+                        PantryPresetChip("🥛 Whole Milk") {
                             name = "Whole Milk"; location = StorageLocation.FRIDGE; unit = "gal"; daysShelfLife = "7"
                         }
                     }
                     item {
-                        PresetChip("🥚 Grade A Eggs") {
+                        PantryPresetChip("🥚 Grade A Eggs") {
                             name = "Grade A Eggs"; location = StorageLocation.FRIDGE; unit = "doz"; daysShelfLife = "21"
                         }
                     }
                     item {
-                        PresetChip("🍞 Sourdough") {
+                        PantryPresetChip("🍞 Sourdough") {
                             name = "Sourdough Bread"; location = StorageLocation.PANTRY; unit = "loaf"; daysShelfLife = "5"
                         }
                     }
                     item {
-                        PresetChip("🥑 Hass Avocados") {
+                        PantryPresetChip("🥑 Hass Avocados") {
                             name = "Hass Avocados"; location = StorageLocation.PANTRY; unit = "ea"; daysShelfLife = "4"
                         }
                     }
                     item {
-                        PresetChip("🍗 Chicken Breast") {
+                        PantryPresetChip("🍗 Chicken Breast") {
                             name = "Chicken Breast"; location = StorageLocation.FREEZER; unit = "lbs"; daysShelfLife = "60"
                         }
                     }
                     item {
-                        PresetChip("🍝 Rao's Marinara") {
+                        PantryPresetChip("🍝 Rao's Marinara") {
                             name = "Rao's Marinara"; location = StorageLocation.PANTRY; unit = "jar"; daysShelfLife = "180"
                         }
                     }
@@ -1337,7 +1338,7 @@ private fun PantryFilterChip(
 }
 
 @Composable
-private fun PresetChip(
+private fun PantryPresetChip(
     label: String,
     onClick: () -> Unit
 ) {

@@ -192,7 +192,7 @@ fun ScannerOverlay(
                 Icon(
                     imageVector = if (isTorchOn) Icons.Default.FlashOn else Icons.Default.FlashOff,
                     contentDescription = "Toggle Torch",
-                    tint = if (isTorchOn) AccentAmber else Color.White
+                    tint = if (isTorchOn) CoralOrange else Color.White
                 )
             }
 
