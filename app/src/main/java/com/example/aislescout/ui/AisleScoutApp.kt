@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aislescout.ui.screens.*
+import androidx.compose.ui.graphics.Color
+import com.example.aislescout.ui.theme.CoralOrange
 import com.example.aislescout.ui.theme.OceanBlue
 import com.example.aislescout.ui.theme.OceanBlueLight
 

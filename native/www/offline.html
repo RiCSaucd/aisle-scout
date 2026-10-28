@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Aisle Scout</title>
+    <style>
+      :root { color-scheme: light dark; --bg: #f5f5f7; --fg: #1d1d1f; --muted: #6e6e73; --accent: #0071e3; }
+      @media (prefers-color-scheme: dark) { :root { --bg: #000; --fg: #f5f5f7; --muted: #a1a1a6; } }
+      html, body { height: 100%; margin: 0; }
+      body {
+        background: var(--bg); color: var(--fg);
+        font: 17px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        display: flex; align-items: center; justify-content: center;
+        padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom));
+        box-sizing: border-box; text-align: center;
+      }
+      main { max-width: 320px; }
+      svg { width: 72px; height: 72px; }
+      h1 { font-size: 24px; margin: 20px 0 8px; letter-spacing: -0.01em; }
+      p { color: var(--muted); margin: 0 0 24px; }
+      button {
+        appearance: none; border: 0; border-radius: 999px; background: var(--accent); color: #fff;
+        font: inherit; font-weight: 600; height: 48px; padding: 0 28px; cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="#0071E3" />
+        <rect x="7" y="11" width="5" height="14" rx="1.2" fill="#fff" />
+        <rect x="13.5" y="7" width="5" height="18" rx="1.2" fill="#fff" />
+        <rect x="20" y="13" width="5" height="12" rx="1.2" fill="#fff" />
+      </svg>
+      <h1>You're offline</h1>
+      <p>Aisle Scout loads this week's 32080 prices over the internet. Your list and pantry are saved on this phone.</p>
+      <button type="button" onclick="location.replace('https://aisle-scout.netlify.app/')">Try again</button>
+    </main>
+  </body>
+</html>

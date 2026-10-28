@@ -484,17 +484,6 @@ export const PROMOTIONS: Promotion[] = [
     details: "Boar's Head-style oven roasted turkey, this week only.",
   },
   {
-    id: "wmt-bananas",
-    productId: "bananas",
-    storeId: "walmart",
-    kind: "rollback",
-    label: "Unadvertised",
-    salePrice: 0.48,
-    startsOn: WEEK_START,
-    endsOn: WEEK_END,
-    details: "US-1 Supercenter produce wall. Still behind Aldi.",
-  },
-  {
     id: "tgt-bounty",
     productId: "paper-towels",
     storeId: "target",

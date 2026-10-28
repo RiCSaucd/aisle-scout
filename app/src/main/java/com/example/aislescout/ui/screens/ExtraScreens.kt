@@ -88,7 +88,7 @@ fun StoresScreen(
                                     .padding(horizontal = 8.dp, vertical = 3.dp)
                             ) {
                                 Text(
-                                    text = "${store.milesFromCenter32080} mi from Beach",
+                                    text = "${store.distanceMiles} mi from Beach",
                                     fontSize = 11.5.sp,
                                     color = OceanBlue,
                                     fontWeight = FontWeight.Bold
@@ -103,7 +103,7 @@ fun StoresScreen(
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
-                            text = "${store.address}, ${store.city}, ${store.state} ${store.zip}",
+                            text = store.address,
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
