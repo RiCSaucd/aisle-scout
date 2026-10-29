@@ -154,10 +154,10 @@ class AisleScoutViewModel(application: Application) : AndroidViewModel(applicati
             ProductCategory.PRODUCE -> StorageLocation.FRIDGE to 7
             ProductCategory.BAKERY -> StorageLocation.PANTRY to 6
             ProductCategory.PANTRY,
-            ProductCategory.BEVERAGES -> StorageLocation.PANTRY to 90
-            ProductCategory.ALCOHOL -> StorageLocation.PANTRY to 180
+            ProductCategory.BEVERAGES,
+            ProductCategory.ALCOHOL -> StorageLocation.PANTRY to 90
             ProductCategory.HOUSEHOLD,
-            ProductCategory.PERSONAL -> StorageLocation.OTHER to 365
+            ProductCategory.PERSONAL -> StorageLocation.PANTRY to 365
             ProductCategory.FROZEN -> StorageLocation.FREEZER to 90
         }
         val targetLocation = customLocation ?: defaultLocation

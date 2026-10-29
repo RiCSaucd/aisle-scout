@@ -12,6 +12,7 @@ import { useGroceryStore } from "@/lib/grocery/store";
 import { usePriceContext } from "@/lib/grocery/hooks";
 import { allPlans } from "@/lib/grocery/optimizer";
 import { MARKET_ZIP } from "@/lib/grocery/types";
+import { LIVE_APP_URL, useShowLiveAppLink } from "@/lib/native";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -38,6 +39,7 @@ const FEATURED = [
 
 function Home() {
   const ctx = usePriceContext();
+  const showLiveLink = useShowLiveAppLink();
   const inventory = useGroceryStore((s) => s.inventory);
   const list = useGroceryStore((s) => s.list);
   const watched = useGroceryStore((s) => s.watched);
@@ -77,13 +79,15 @@ function Home() {
           Shop the 32080 book like Instacart — photos, a tap to add — then see who actually wins: Publix BOGO, Aldi
           produce, Walmart rollback, or a farm stall.
         </p>
-        <a
-          href="https://aisle-scout.netlify.app"
-          className="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground"
-        >
-          Open the live app
-          <ArrowRight className="size-4" />
-        </a>
+        {showLiveLink ? (
+          <a
+            href={LIVE_APP_URL}
+            className="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground"
+          >
+            Open the live app
+            <ArrowRight className="size-4" />
+          </a>
+        ) : null}
         <ProductSearch onPick={setOpenId} />
         <div className="flex flex-col gap-2 sm:flex-row">
           <Button asChild>

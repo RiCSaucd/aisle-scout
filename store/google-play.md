@@ -7,12 +7,12 @@ can do, plus every answer the Play Console forms ask for.
 | | |
 | --- | --- |
 | Package name | `com.aislescout.app` — permanent after the first upload |
-| Version | `1.0.0` (versionCode `1`) — raise `versionCode` in `app/build.gradle.kts` for every upload |
+| Version | `1.0.0`; the Mobile workflow sets versionCode to its run number, so each upload is higher |
 | Target SDK | 36 (Android 16), which Play requires for new apps |
 | Min SDK | 26 (Android 8.0) |
 | Permissions | Internet, network state, camera (barcode scanner) |
 | Category | Shopping |
-| Listing assets | `store/google-play/` (icon, feature graphic, 6 phone screenshots) |
+| Listing assets | `store/assets/play-icon-512.png`, `store/assets/play-feature-graphic-1024x500.png`, 6 phone screenshots in `store/google-play/phone-screenshots/` |
 
 ## 1. Before you start
 
@@ -47,13 +47,13 @@ Settings → Secrets and variables → Actions, add:
 
 | Secret | Value |
 | --- | --- |
-| `AISLE_SCOUT_KEYSTORE_BASE64` | output of `base64 -w0 aisle-scout-upload.jks` (macOS: `base64 -i aisle-scout-upload.jks`) |
-| `AISLE_SCOUT_KEYSTORE_PASSWORD` | keystore password |
-| `AISLE_SCOUT_KEY_ALIAS` | `upload` |
-| `AISLE_SCOUT_KEY_PASSWORD` | key password |
+| `ANDROID_KEYSTORE_BASE64` | output of `base64 -w0 aisle-scout-upload.jks` (macOS: `base64 -i aisle-scout-upload.jks`) |
+| `ANDROID_KEYSTORE_PASSWORD` | keystore password |
+| `ANDROID_KEY_ALIAS` | `upload` |
+| `ANDROID_KEY_PASSWORD` | key password |
 
-Then Actions → **Android** → Run workflow on `main`. Download the
-`aisle-scout-release-signed` artifact; inside is `app-release.aab`.
+Then Actions → **Mobile** → Run workflow on `main`. Download the
+`aisle-scout-android-<run number>` artifact; inside is `app-release.aab`.
 
 **B. On your computer** (JDK 21 and the Android SDK, e.g. from Android Studio).
 Create `keystore.properties` in the repo root (it is git-ignored):
@@ -101,8 +101,9 @@ Compare 32080 grocery shelf prices and BOGO deals before you shop.
 > No account, no ads. Your list and pantry stay on your phone. Prices are a
 > curated snapshot updated with app releases, so check the shelf tag in store.
 
-Graphics: upload `store/google-play/icon-512.png`, `feature-graphic-1024x500.png`
-and the PNGs in `phone-screenshots/` (1080×1920; Play needs 2–8).
+Graphics: upload `store/assets/play-icon-512.png`,
+`store/assets/play-feature-graphic-1024x500.png` and the PNGs in
+`store/google-play/phone-screenshots/` (1080×1920; Play needs 2–8).
 
 ### App content forms
 
@@ -149,7 +150,7 @@ messages, financial info, app activity.
   (Robolectric) and opens Home, Prices, Deals, List, My Pantry and Scan. A crash
   on any of them fails the build, and each screen is saved as a PNG; those are the
   screenshots in `phone-screenshots/`.
-- The Android workflow repeats all of this on every PR that touches the app.
+- The Mobile workflow repeats all of this on every PR that touches the app.
 
 Not verified: running on a physical phone or emulator, including the live
 camera scan. Install the internal-testing build on your own phone and try a

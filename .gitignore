@@ -10,15 +10,13 @@ artifacts/
 dist/
 *.local
 .DS_Store
-
-# Android (Gradle) build output and machine-local config
+# Android / Gradle
 .gradle/
-/build/
-/app/build/
+build/
+app/build/
 local.properties
-.kotlin/
-
-# Release signing: never commit the upload key or its passwords
+keystore.properties
 *.jks
 *.keystore
-keystore.properties
+build/reports/
+.kotlin/

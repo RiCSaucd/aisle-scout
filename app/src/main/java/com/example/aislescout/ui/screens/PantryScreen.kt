@@ -683,7 +683,7 @@ fun PantryItemCard(
                     ) {
                         // Storage location badge
                         val locationBg = when (item.location) {
-                            StorageLocation.PANTRY -> CoralOrange.copy(alpha = 0.15f)
+                            StorageLocation.PANTRY -> SunsetAmber.copy(alpha = 0.15f)
                             StorageLocation.FRIDGE -> OceanBlueLight
                             StorageLocation.FREEZER -> Color(0xFFE0F2FE)
                             StorageLocation.OTHER -> MaterialTheme.colorScheme.surfaceVariant

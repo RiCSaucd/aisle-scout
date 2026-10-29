@@ -18,6 +18,7 @@ import { rehydrateGrocery, useGroceryStore } from "@/lib/grocery/store";
 import { rehydrateHouse } from "@/lib/grocery/house-store";
 import { WEEK_LABEL } from "@/lib/grocery/promotions";
 import { MARKET_ZIP } from "@/lib/grocery/types";
+import { LIVE_APP_URL, useShowLiveAppLink } from "@/lib/native";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -43,6 +44,7 @@ const MORE = [
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const listCount = useGroceryStore((s) => s.list.filter((i) => !i.checked).length);
+  const showLiveLink = useShowLiveAppLink();
 
   useEffect(() => {
     rehydrateGrocery();
@@ -54,18 +56,19 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="app-atmosphere" aria-hidden />
       <div className="app-content">
         <aside className="fixed inset-y-3 left-3 z-30 hidden w-56 flex-col rounded-xl bg-card/80 px-4 py-6 shadow-[var(--shadow-glass)] backdrop-blur-2xl lg:flex">
-          <Link to="/" className="px-2">
-            <div className="font-display text-xl font-semibold tracking-tight">Aisle Scout</div>
-            <div className="mt-1 text-xs text-muted-foreground">
-              {MARKET_ZIP} · {WEEK_LABEL}
-            </div>
-            <a
-              href="https://aisle-scout.netlify.app"
-              className="mt-3 inline-flex text-xs font-medium text-primary hover:underline"
-            >
-              aisle-scout.netlify.app
-            </a>
-          </Link>
+          <div className="px-2">
+            <Link to="/" className="block">
+              <div className="font-display text-xl font-semibold tracking-tight">Aisle Scout</div>
+              <div className="mt-1 text-xs text-muted-foreground">
+                {MARKET_ZIP} · {WEEK_LABEL}
+              </div>
+            </Link>
+            {showLiveLink ? (
+              <a href={LIVE_APP_URL} className="mt-3 inline-flex text-xs font-medium text-primary hover:underline">
+                aisle-scout.netlify.app
+              </a>
+            ) : null}
+          </div>
           <nav className="mt-8 flex flex-1 flex-col gap-1">
             {NAV.map((item) => {
               const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
@@ -149,6 +152,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
 function MoreMenu() {
   const [open, setOpen] = useState(false);
+  const showLiveLink = useShowLiveAppLink();
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -175,12 +179,14 @@ function MoreMenu() {
               </Link>
             );
           })}
-          <a
-            href="https://aisle-scout.netlify.app"
-            className="mt-2 flex h-12 items-center gap-3 rounded-xl px-3 text-sm font-medium text-primary hover:bg-muted"
-          >
-            Open the live app
-          </a>
+          {showLiveLink ? (
+            <a
+              href={LIVE_APP_URL}
+              className="mt-2 flex h-12 items-center gap-3 rounded-xl px-3 text-sm font-medium text-primary hover:bg-muted"
+            >
+              Open the live app
+            </a>
+          ) : null}
         </nav>
       </SheetContent>
     </Sheet>

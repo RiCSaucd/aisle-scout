@@ -442,7 +442,7 @@ fun ProductLookupSheet(
                         .testTag("scanner_add_to_pantry_button"),
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isAddedToPantry) EmeraldGreen else CoralOrange
+                        containerColor = if (isAddedToPantry) EmeraldGreen else SunsetAmber
                     )
                 ) {
                     Icon(
