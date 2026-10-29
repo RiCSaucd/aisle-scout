@@ -54,13 +54,13 @@ jobs:
           else
             echo "::notice::ANDROID_KEYSTORE_BASE64 is not set — the release bundle is unsigned and cannot go to Play."
           fi
-      - name: Build bundle and debug APK
+      - name: Screen tests, lint, bundle and debug APK
         env:
           ANDROID_VERSION_CODE: ${{ github.run_number }}
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: ./gradlew :app:bundleRelease :app:assembleDebug --console=plain
+        run: ./gradlew :app:testDebugUnitTest :app:lintRelease :app:bundleRelease :app:assembleDebug --console=plain
       - uses: actions/upload-artifact@v4
         with:
           name: aisle-scout-android-${{ github.run_number }}
@@ -68,6 +68,14 @@ jobs:
             app/build/outputs/bundle/release/*.aab
             app/build/outputs/apk/debug/*.apk
           retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-screens-and-reports-${{ github.run_number }}
+          path: |
+            app/build/outputs/roborazzi/
+            app/build/reports/
+          retention-days: 7
 
   ios:
     name: iOS (App Store shell)

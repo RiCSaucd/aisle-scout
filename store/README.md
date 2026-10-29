@@ -12,6 +12,8 @@ CI (`.github/workflows/mobile.yml`) builds both on every PR that touches them. T
 
 ## Google Play (native app in `app/`)
 
+Full checklist, listing copy and every Play Console form answer: **[google-play.md](google-play.md)**.
+
 1. Make an upload key once, keep it safe (losing it means a Play support ticket):
    ```bash
    keytool -genkeypair -v -keystore upload.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000
@@ -19,7 +21,7 @@ CI (`.github/workflows/mobile.yml`) builds both on every PR that touches them. T
 2. Add repo secrets: `ANDROID_KEYSTORE_BASE64` (`base64 -w0 upload.jks`), `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD`.
    Locally, put the same four values in a gitignored `keystore.properties` (`storeFile`, `storePassword`, `keyAlias`, `keyPassword`).
 3. Run **Actions → Mobile**, download `app-release.aab`, and upload it to an **Internal testing** track in Play Console. The version code is the run number, so each upload is higher.
-4. Listing assets: `store/assets/play-icon-512.png`, `store/assets/play-feature-graphic-1024x500.png`. Phone screenshots must come from the Kotlin app (it looks different from the web app).
+4. Listing assets: `store/assets/play-icon-512.png`, `store/assets/play-feature-graphic-1024x500.png`, and the phone screenshots in `store/google-play/phone-screenshots/` (captured from the Kotlin app by `AppScreensTest`).
 5. Data safety form: no account, no data shared; the camera is used on-device (ML Kit). Privacy URL: `https://aisle-scout.netlify.app/legal`.
 
 New personal Play developer accounts must run a closed test with 12+ testers for 14 days before production.

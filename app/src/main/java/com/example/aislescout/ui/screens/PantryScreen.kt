@@ -201,7 +201,8 @@ fun PantryScreen(
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(
+            // The empty state has its own Scan and Add buttons; a FAB there would cover "Add Manually".
+            if (filteredItems.isNotEmpty()) ExtendedFloatingActionButton(
                 onClick = onNavigateToScan,
                 icon = { Icon(Icons.Default.QrCodeScanner, contentDescription = null) },
                 text = { Text("Scan Barcode", fontWeight = FontWeight.Bold) },

@@ -66,6 +66,13 @@ android {
     buildFeatures {
         compose = true
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            // Roborazzi writes the screen captures to app/build/outputs/roborazzi/.
+            all { it.systemProperty("roborazzi.test.record", "true") }
+        }
+    }
 }
 
 dependencies {
@@ -99,4 +106,12 @@ dependencies {
     implementation(libs.google.mlkit.barcode)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(platform(libs.androidx.compose.bom))
+    testImplementation(libs.androidx.compose.ui.test.junit4)
 }
