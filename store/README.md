@@ -30,7 +30,21 @@ New personal Play developer accounts must run a closed test with 12+ testers for
 
 The WebView loads `https://aisle-scout.netlify.app`, so price and deal updates ship without a resubmit. With no connection it shows `native/www/offline.html`. Camera and photo permission strings, the icon, and the launch screen are already in the project.
 
-On a Mac with Xcode 16+:
+### Upload to TestFlight without a Mac
+
+GitHub's Mac runners build, sign and upload the app. One-time setup, all in a browser:
+
+1. **App record:** in [App Store Connect](https://appstoreconnect.apple.com) → **Apps → +  → New App**: platform iOS, name *Aisle Scout*, bundle ID `com.aislescout.app` (if it isn't in the list yet, register it under [Identifiers](https://developer.apple.com/account/resources/identifiers/list) first), any SKU such as `aislescout-ios`.
+2. **API key:** App Store Connect → **Users and Access → Integrations → App Store Connect API → Team Keys → +**, access **Admin** (Xcode needs it to create the signing certificate). Download the `.p8` file — Apple only lets you download it once. Note the **Key ID** and the **Issuer ID** shown above the list.
+3. **Team ID:** [developer.apple.com/account](https://developer.apple.com/account) → **Membership details → Team ID** (10 characters).
+4. **GitHub secrets** (repo → Settings → Secrets and variables → Actions):
+   - `APPLE_TEAM_ID` — the Team ID
+   - `APP_STORE_CONNECT_KEY_ID` — the Key ID
+   - `APP_STORE_CONNECT_ISSUER_ID` — the Issuer ID
+   - `APP_STORE_CONNECT_KEY` — the whole text of the `.p8` file, including the `BEGIN`/`END` lines
+5. **Run it:** Actions → **Mobile** → **Run workflow** → tick **Also archive the iPhone app and upload it to TestFlight**. The build number is the run number. The build shows up in App Store Connect → TestFlight after Apple finishes processing (usually 10–30 minutes).
+
+### Or on a Mac with Xcode 16+
 
 ```bash
 npm ci
